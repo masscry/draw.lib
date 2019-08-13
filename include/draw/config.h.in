@@ -1,0 +1,30 @@
+/**
+ * @file config.h.in
+ * @author masscry (masscry@gmail.com )
+ * @brief Configuration file stub
+ * @version 0.0.1.1
+ * @date 2019-08-14
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+#pragma once
+#ifndef __DRAW_CONFIG_HEADER__
+#define __DRAW_CONFIG_HEADER__
+
+// Library version identification
+#define DRAW_VER_STRING ("@DRAW_VER_STRING@")
+#define DRAW_VER_MAJOR  (@DRAW_VER_MAJOR@)
+#define DRAW_VER_MINOR  (@DRAW_VER_MINOR@)
+#define DRAW_VER_PATCH  (@DRAW_VER_PATCH@)
+#define DRAW_VER_BUILD  (@DRAW_VER_BUILD@)
+
+// Library platform detection
+#define DRAW_PLATFORM_UNIX  (@DRAW_PLATFORM_UNIX@)
+#define DRAW_PLATFORM_WIN32 (@DRAW_PLATFORM_WIN32@)
+
+#if DRAW_PLATFORM_WIN32
+#error "Win32 currently is not supported"
+#endif 
+
+#endif /* __DRAW_CONFIG_HEADER__ */
