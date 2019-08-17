@@ -43,8 +43,12 @@ target_include_directories(drawSetup INTERFACE
 target_compile_options(drawSetup INTERFACE -Wall)
 
 add_library(draw 
-  src/draw.cpp
+  src/system_t.cpp
+  ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h
   include/draw.hpp
+  include/draw/error_t.hpp
+  include/draw/frameStage_t.hpp
+  include/draw/system_t.hpp
 )
 
 target_link_libraries(draw PUBLIC drawSetup glfw glad)
