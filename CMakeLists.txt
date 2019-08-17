@@ -6,6 +6,10 @@ project(draw
   LANGUAGES CXX
 )
 
+find_package(glfw3 3.2 REQUIRED)
+
+add_subdirectory(contrib)
+
 set(DRAW_VER_STRING "${draw_VERSION}")
 set(DRAW_VER_MAJOR   ${draw_VERSION_MAJOR})
 set(DRAW_VER_MINOR   ${draw_VERSION_MINOR})
@@ -43,7 +47,7 @@ add_library(draw
   include/draw.hpp
 )
 
-target_link_libraries(draw PUBLIC drawSetup)
+target_link_libraries(draw PUBLIC drawSetup glfw glad)
 
 add_executable(ex_code_000
   examples/000.cpp
