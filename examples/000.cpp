@@ -26,6 +26,10 @@ int main(int argc, char* argv[])
     double mark  = start;
 
     fprintf(stderr, "Start Draw: %f\n", start);
+
+    fprintf(stderr, "Let's sleep for 3 sec\n");
+    instance.Sleep(3.0);
+    
     while (instance.IsCloseExpected() == 0)
     {
       double now = instance.Timestamp();
