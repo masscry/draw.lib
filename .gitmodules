@@ -1,0 +1,3 @@
+[submodule "contrib/alpha0"]
+	path = contrib/alpha0
+	url = git@github.com:masscry/alpha0.git
