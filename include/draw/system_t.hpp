@@ -92,10 +92,10 @@ namespace draw
     /**
      * @brief Return current window close expected status
      * 
-     * @return true when system wants to close window
-     * @return false when system do not want to close window
+     * @return false when system wants to close window
+     * @return true when system do not want to close window
      */
-    bool IsCloseExpected() const noexcept;
+    bool IsRunning() const noexcept;
 
     /**
      * @brief Render all registered frame stages, then swap buffers

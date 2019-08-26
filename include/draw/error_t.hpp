@@ -41,7 +41,7 @@ namespace draw
       ;
     }
 
-    error_t(const error_t& copy)
+    error_t(const error_t& copy) noexcept
     :std::runtime_error(copy), filename(copy.filename), line(copy.line) {
       ;
     }

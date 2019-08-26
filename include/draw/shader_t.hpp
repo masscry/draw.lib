@@ -43,6 +43,7 @@ namespace draw
 
   public:
 
+    glResource_t();
     glResource_t(GLuint handle, resCleanupFunc_t cleanup);
     virtual ~glResource_t();
   };
@@ -52,11 +53,11 @@ namespace draw
     static void DeleteShader(GLuint handle);
     void Bind(GLuint handle) const override;
 
-    glShader_t();
+    glShader_t() = default;
 
   public:
     glShader_t(const char* vpSource, const char* fpSource);
-    ~glShader_t() = default;
+    ~glShader_t() override = default;
 
     static glSharedResource_t None();
   };

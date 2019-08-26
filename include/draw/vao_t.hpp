@@ -20,12 +20,12 @@ namespace draw
     static void DeleteVertexArray(GLuint handle);
     void Bind(GLuint handle) const override;
 
-    glVertexArray_t();
+    glVertexArray_t() = default;
 
   public:
 
     glVertexArray_t(int dummy); // size is always 0, ignore it
-    ~glVertexArray_t() = default;
+    ~glVertexArray_t() override = default;
 
     static glSharedResource_t None();
 
@@ -37,12 +37,29 @@ namespace draw
 
     void Bind(GLuint handle) const override;
 
-    glDataBuffer_t();
+    glDataBuffer_t() = default;
 
   public:
 
     glDataBuffer_t(const void* data, GLsizei size, GLenum usage);
-    ~glDataBuffer_t() = default;
+    ~glDataBuffer_t() override = default;
+
+    static glSharedResource_t None();
+
+  };
+
+  class glIndexBuffer_t: public glResource_t
+  {
+    static void DeleteIndexBuffer(GLuint handle);
+
+    void Bind(GLuint handle) const override;
+
+    glIndexBuffer_t() = default;
+
+  public:
+
+    glIndexBuffer_t(const void* data, GLsizei size, GLenum usage);
+    ~glIndexBuffer_t() override = default;
 
     static glSharedResource_t None();
 
