@@ -3,6 +3,7 @@
     "stdexcept": "cpp",
     "time.h": "c",
     "inttypes.h": "c",
-    "cinttypes": "c"
+    "cinttypes": "cpp",
+    "cstring": "cpp"
   }
 }
