@@ -6,6 +6,17 @@ project(draw
   LANGUAGES CXX
 )
 
+find_program(CLANG_TIDY_CHECK NAMES clang-tidy)
+
+if (CLANG_TIDY_CHECK)
+  message(STATUS "clang-tidy checks enabled")
+  set(CMAKE_CXX_CLANG_TIDY
+    clang-tidy
+    -checks=bugprone-*,cert-*,clang-*,modernize-*,perfomance-*,readability-*,misc-*,google-*,portability-*
+    -header-filter=*
+  )
+endif(CLANG_TIDY_CHECK)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(glfw3 3.2 REQUIRED)
@@ -45,12 +56,19 @@ target_include_directories(drawSetup INTERFACE
 target_compile_options(drawSetup INTERFACE -Wall)
 
 add_library(draw 
+  # SOURCES
   src/system_t.cpp
+  src/shader_t.cpp
+  src/vao_t.cpp
+
+  # HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h
   include/draw.hpp
   include/draw/error_t.hpp
   include/draw/frameStage_t.hpp
+  include/draw/shader_t.hpp
   include/draw/system_t.hpp
+  include/draw/vao_t.hpp
 )
 
 target_link_libraries(draw PUBLIC drawSetup glfw glad)
