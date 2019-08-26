@@ -1,5 +1,8 @@
 {
   "files.associations": {
-    "stdexcept": "cpp"
+    "stdexcept": "cpp",
+    "time.h": "c",
+    "inttypes.h": "c",
+    "cinttypes": "c"
   }
 }
