@@ -30,7 +30,7 @@ int main(int /*unused*/, char** /*unused*/)
     fprintf(stderr, "Let's sleep for 3 sec\n");
     instance.Sleep(3.0);
     
-    while (!instance.IsRunning())
+    while (instance.IsRunning())
     {
       double now = instance.Timestamp();
       instance.Render();
