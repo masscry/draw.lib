@@ -14,7 +14,7 @@ class sampleFrame:public draw::frameStage_t
   }
 };
 
-int main(int argc, char* argv[])
+int main(int /*unused*/, char** /*unused*/)
 {
   try {
     draw::system_t& instance = draw::system_t::Instance();
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     fprintf(stderr, "Let's sleep for 3 sec\n");
     instance.Sleep(3.0);
     
-    while (instance.IsCloseExpected() == 0)
+    while (!instance.IsRunning())
     {
       double now = instance.Timestamp();
       instance.Render();
