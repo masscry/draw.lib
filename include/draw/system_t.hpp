@@ -13,6 +13,7 @@
 #define __DRAW_LIB_SYSTEM_T_HEADER__
 
 #include <vector>
+#include <memory>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -20,6 +21,10 @@ namespace draw
 {
 
   class frameStage_t;
+
+  class glResource_t;
+
+  typedef std::shared_ptr<glResource_t> glSharedResource_t;
 
   class system_t final {
 
@@ -40,6 +45,13 @@ namespace draw
     ~system_t();
 
   public:
+
+    /**
+     * @brief Bind given resource
+     * 
+     * @param res valid resource
+     */
+    void Bind(const glResource_t& res);
 
     /**
      * @brief Add new frame stage
