@@ -12,3 +12,4 @@ target_include_directories(glad PUBLIC
   glad/include
 )
 
+add_subdirectory(alpha0)
