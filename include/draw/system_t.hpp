@@ -34,6 +34,7 @@ namespace draw
 
     GLFWwindow*           window;
     vectorOfFrameStages_t stages;
+    settings_t            settings;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -101,6 +102,8 @@ namespace draw
      * @brief Render all registered frame stages, then swap buffers
      */
     void Render() noexcept;
+
+    const settings_t& Settings() const noexcept;
 
   };
 

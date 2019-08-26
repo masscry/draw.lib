@@ -21,7 +21,7 @@
 namespace draw
 {
 
-  system_t::system_t():window(nullptr)
+  system_t::system_t():window(nullptr),settings("./draw.json")
   {
     if (glfwInit() == GLFW_FALSE)
     {
@@ -30,7 +30,13 @@ namespace draw
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    this->window = glfwCreateWindow(800, 600, "draw.lib", nullptr, nullptr);
+    this->window = glfwCreateWindow(
+      this->settings.NumberDefault("window/width" , 800.0),
+      this->settings.NumberDefault("window/height", 600.0),
+      this->settings.StringDefault("window/title" , "draw.lib"),
+      nullptr,
+      nullptr
+    );
     if (this->window == nullptr)
     {
       THROW_ERROR("Window Creating Failed");
@@ -137,6 +143,11 @@ namespace draw
   }
 
 #endif /* DRAW_PLATFORM_UNIX */
+
+  const settings_t& system_t::Settings() const noexcept
+  {
+    return this->settings;
+  }
 
   void glResource_t::DoNothing(GLuint /*notused*/)
   {

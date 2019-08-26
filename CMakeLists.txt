@@ -60,6 +60,7 @@ add_library(draw
   src/system_t.cpp
   src/shader_t.cpp
   src/vao_t.cpp
+  src/settings_t.cpp
 
   # HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h
@@ -72,10 +73,10 @@ add_library(draw
   include/draw/settings_t.hpp
 )
 
-target_link_libraries(draw PUBLIC drawSetup glfw glad)
+target_link_libraries(draw PUBLIC drawSetup glfw glad alpha0)
 
 add_executable(ex_code_000
   examples/000.cpp
 )
 
-target_link_libraries(ex_code_000 PRIVATE draw)
+target_link_libraries(ex_code_000 PRIVATE draw alpha0)
