@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Example 000",
+      "name": "Ex000",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/ex_code_000",
+      "program": "${workspaceFolder}/build/ex000",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
