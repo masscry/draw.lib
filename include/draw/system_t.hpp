@@ -35,6 +35,7 @@ namespace draw
     GLFWwindow*           window;
     vectorOfFrameStages_t stages;
     settings_t            settings;
+    glm::vec2             winsize;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -46,6 +47,11 @@ namespace draw
     ~system_t();
 
   public:
+
+    glm::vec2 WindowSize() const
+    {
+      return this->winsize;
+    }
 
     /**
      * @brief Bind given resource

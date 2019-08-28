@@ -16,6 +16,8 @@ namespace draw
    */
   glm::vec4 ParseColor(const char* hexColStr);
 
+  glm::vec3 ParseVector3D(J2VAL vec);
+
   template<typename T>
   struct jsonCXXTypeTraits
   {
@@ -23,6 +25,20 @@ namespace draw
     {
       JSON_TYPE = J2_UNDEF
     };
+  };
+
+  template<>
+  struct jsonCXXTypeTraits<glm::vec3>
+  {
+    enum
+    {
+      JSON_TYPE = J2_ARRAY
+    };
+
+    static inline glm::vec3 unbox(J2VAL value)
+    {
+      return ParseVector3D(value);
+    }
   };
 
   template<>

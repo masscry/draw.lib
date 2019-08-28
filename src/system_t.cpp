@@ -30,12 +30,16 @@ namespace draw
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_RESIZABLE, 0);
 
     settings_t windowSettings = this->Settings().Subroot("window");
 
+    this->winsize.x = windowSettings.Param("width" , 800.0);
+    this->winsize.y = windowSettings.Param("height", 600.0);
+
     this->window = glfwCreateWindow(
-      windowSettings.Param("width" , 800.0),
-      windowSettings.Param("height", 600.0),
+      this->winsize.x,
+      this->winsize.y,
       windowSettings.Param("title" , "draw.lib"),
       nullptr,
       nullptr
@@ -175,23 +179,6 @@ namespace draw
   {
     this->cleanup(this->handle);
     this->handle = 0;
-  }
-
-  glm::vec4 ParseColor(const char* hexColStr)
-  { // parses strings like '#RRGGBBAA'
-    // where RR, GG, BB, AA - hex byte
-    if (*hexColStr == '#')
-    {
-      ++hexColStr;
-    }
-
-    uint32_t colorNum = strtoul(hexColStr, nullptr, 16);
-    return glm::vec4{
-      ((colorNum >> 24) & 0xFF)/255.0f,
-      ((colorNum >> 16) & 0xFF)/255.0f,
-      ((colorNum >> 8) & 0xFF)/255.0f,
-      ((colorNum ) & 0xFF)/255.0f
-    };
   }
 
 } // namespace draw

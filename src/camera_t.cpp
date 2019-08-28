@@ -10,6 +10,13 @@ namespace draw
     this->projection = glm::perspective(glm::radians(fov), width/height, near, far);
   }
 
+  camera_t::camera_t()
+  :projection(), modelView(1.0f)
+  {
+    glm::vec2 size = system_t::Instance().WindowSize();
+    this->projection = glm::perspective(glm::radians(45.0f), size.x/size.y, 0.1f, 1000.0f);
+  }
+
   void camera_t::Bind(GLuint projUniform, GLuint mvUniform)
   {
     this->projUniform = projUniform;

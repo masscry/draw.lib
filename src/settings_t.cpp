@@ -86,4 +86,30 @@ namespace draw
     return objCursor;
   }
 
+  glm::vec4 ParseColor(const char* hexColStr)
+  { // parses strings like '#RRGGBBAA'
+    // where RR, GG, BB, AA - hex byte
+    if (*hexColStr == '#')
+    {
+      ++hexColStr;
+    }
+
+    uint32_t colorNum = strtoul(hexColStr, nullptr, 16);
+    return glm::vec4{
+      ((colorNum >> 24) & 0xFF)/255.0f,
+      ((colorNum >> 16) & 0xFF)/255.0f,
+      ((colorNum >> 8) & 0xFF)/255.0f,
+      ((colorNum ) & 0xFF)/255.0f
+    };
+  }
+
+  glm::vec3 ParseVector3D(J2VAL vec)
+  {
+    return glm::vec3{
+      jaGetNumber(vec, 0, 0.0),
+      jaGetNumber(vec, 1, 0.0),
+      jaGetNumber(vec, 2, 0.0)
+    };
+  }
+
 } // namespace draw

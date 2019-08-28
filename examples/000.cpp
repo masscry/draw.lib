@@ -1,5 +1,6 @@
 #include <draw.hpp>
 #include <cstdio>
+#include <glm/gtc/matrix_transform.hpp>
 
 const char* vShader = R"shader(
 #version 330 core
@@ -9,11 +10,14 @@ layout(location = 1) in vec3 norm;
 layout(location = 2) in vec4 col;
 layout(location = 3) in vec2 uv;
 
+uniform mat4 matProj;
+uniform mat4 matModelView;
+
 out vec4 vCol;
 
 void main()
 {
-  gl_Position = vec4(pos, 1.0f);
+  gl_Position = matProj * matModelView * vec4(pos, 1.0f);
   vCol = col;
 }
 
@@ -37,13 +41,15 @@ class sampleFrame:public draw::frameStage_t
 {
   draw::mesh_t mesh;
   draw::glSharedResource_t shader;
+  draw::camera_t camera;
 
   void OnRender() override
   {
     draw::system_t& instance = draw::system_t::Instance();
     instance.Bind(*this->shader);
     glClear(GL_COLOR_BUFFER_BIT);
-    mesh.Draw();
+    this->camera.Use();
+    this->mesh.Draw();
   }
   
   bool IsDynamic() override
@@ -78,6 +84,20 @@ public:
     this->mesh.CopyToGPU();
 
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);
+
+    this->camera.Bind(
+      glGetUniformLocation(this->shader->Handle(), "matProj"),
+      glGetUniformLocation(this->shader->Handle(), "matModelView")
+    );
+
+    draw::system_t& instance = draw::system_t::Instance();
+
+    this->camera.ModelView() = glm::lookAt(
+      instance.Settings().Param("scene/camera/pos",    glm::vec3(5.0f, 5.0f, 5.0f)),
+      instance.Settings().Param("scene/camera/origin", glm::vec3(0.0f, 0.0f, 0.0f)),
+      instance.Settings().Param("scene/camera/up",     glm::vec3(0.0f, 1.0f, 0.0f))
+    );
+
   }
 
   ~sampleFrame() override = default;

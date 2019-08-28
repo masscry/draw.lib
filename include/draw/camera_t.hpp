@@ -17,6 +17,16 @@ namespace draw
 
   public:
 
+    glm::mat4& ModelView()
+    {
+      return this->modelView;
+    }
+
+    const glm::mat4& ModelView() const
+    {
+      return this->modelView;
+    }
+
     void Bind(GLuint projUniform, GLuint mvUniform);
 
     void Use() const;
@@ -27,6 +37,7 @@ namespace draw
     camera_t& operator = (camera_t&&) = default;
     ~camera_t() = default;
 
+    camera_t();
     camera_t(float fov, float width, float height, float near, float far);
   };
 

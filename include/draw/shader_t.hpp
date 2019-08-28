@@ -43,6 +43,11 @@ namespace draw
 
   public:
 
+    GLuint Handle() const
+    {
+      return this->handle;
+    }
+
     glResource_t();
     glResource_t(GLuint handle, resCleanupFunc_t cleanup);
     virtual ~glResource_t();
