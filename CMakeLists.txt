@@ -55,12 +55,14 @@ target_include_directories(drawSetup INTERFACE
 
 target_compile_options(drawSetup INTERFACE -Wall)
 
-add_library(draw 
+add_library(draw STATIC
   # SOURCES
   src/system_t.cpp
   src/shader_t.cpp
   src/vao_t.cpp
   src/settings_t.cpp
+  src/camera_t.cpp
+  src/mesh_t.cpp
 
   # HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h
@@ -71,12 +73,14 @@ add_library(draw
   include/draw/system_t.hpp
   include/draw/vao_t.hpp
   include/draw/settings_t.hpp
+  include/draw/camera_t.hpp
+  include/draw/mesh_t.hpp
 )
 
-target_link_libraries(draw PUBLIC drawSetup glfw glad alpha0)
+target_link_libraries(draw PUBLIC drawSetup glfw glad alpha0 glm_static)
 
-add_executable(ex_code_000
+add_executable(ex000
   examples/000.cpp
 )
 
-target_link_libraries(ex_code_000 PRIVATE draw alpha0)
+target_link_libraries(ex000 PRIVATE draw)

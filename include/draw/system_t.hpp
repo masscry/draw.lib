@@ -103,6 +103,9 @@ namespace draw
      */
     void Render() noexcept;
 
+    /**
+     * @brief Global settings file.
+     */
     const settings_t& Settings() const noexcept;
 
   };
