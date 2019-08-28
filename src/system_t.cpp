@@ -31,9 +31,9 @@ namespace draw
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     this->window = glfwCreateWindow(
-      this->settings.NumberDefault("window/width" , 800.0),
-      this->settings.NumberDefault("window/height", 600.0),
-      this->settings.StringDefault("window/title" , "draw.lib"),
+      this->settings.Param("window/width" , 800.0),
+      this->settings.Param("window/height", 600.0),
+      this->settings.Param("window/title" , "draw.lib"),
       nullptr,
       nullptr
     );
@@ -46,7 +46,9 @@ namespace draw
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 
-    glClearColor(0.16, 0.16, 0.16, 1.0);
+    glm::vec4 clearColor = this->settings.Param("scene/clcolor", glm::vec4{0.16, 0.16, 0.16, 1.0});
+
+    glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
   }
 
   system_t::~system_t()

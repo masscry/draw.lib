@@ -67,60 +67,22 @@ namespace draw
     return objCursor;
   }
 
-  double settings_t::Number(const char* path) const
-  {
-    J2VAL subroot = this->TraversePath(path);
-    if (subroot == nullptr)
+  glm::vec4 ParseColor(const char* hexColStr)
+  { // parses strings like '#RRGGBBAA'
+    // where RR, GG, BB, AA - hex byte
+    if (*hexColStr == '#')
     {
-      THROW_ERROR("settings_t::Number: Path not found");
+      ++hexColStr;
     }
-    if (j2Type(subroot) != J2_NUMBER)
-    {
-      THROW_ERROR("settings_t::Number: Invalid type");
-    }
-    return j2ValueNumber(subroot);
+
+    uint32_t colorNum = strtoul(hexColStr, nullptr, 16);
+    return glm::vec4{
+      ((colorNum >> 24) & 0xFF)/255.0f,
+      ((colorNum >> 16) & 0xFF)/255.0f,
+      ((colorNum >> 8) & 0xFF)/255.0f,
+      ((colorNum ) & 0xFF)/255.0f
+    };
   }
 
-  const char* settings_t::String(const char* path) const
-  {
-    J2VAL subroot = this->TraversePath(path);
-    if (subroot == nullptr)
-    {
-      THROW_ERROR("settings_t::String: Path not found");
-    }
-    if (j2Type(subroot) != J2_STRING)
-    {
-      THROW_ERROR("settings_t::String: Invalid type");
-    }
-    return j2ValueString(subroot);
-  }
-
-  double settings_t::NumberDefault(const char* path, double defval) const
-  {
-    J2VAL subroot = this->TraversePath(path);
-    if (subroot == nullptr)
-    {
-      return defval;
-    }
-    if (j2Type(subroot) != J2_NUMBER)
-    {
-      return defval;
-    }
-    return j2ValueNumber(subroot);
-  }
-
-  const char* settings_t::StringDefault(const char* path, const char* defval) const
-  {
-    J2VAL subroot = this->TraversePath(path);
-    if (subroot == nullptr)
-    {
-      return defval;
-    }
-    if (j2Type(subroot) != J2_STRING)
-    {
-      return defval;
-    }
-    return j2ValueString(subroot);
-  }
 
 } // namespace draw
