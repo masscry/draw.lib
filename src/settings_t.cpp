@@ -6,7 +6,7 @@ namespace draw
 {
   
   settings_t::settings_t(const char* path)
-  :root(nullptr)
+  :root(nullptr),rootOwner(nullptr)
   {
     FILE* input = fopen(path, "r");
     if (input != nullptr)
@@ -25,7 +25,26 @@ namespace draw
 
   settings_t::~settings_t()
   {
-    j2Cleanup(&this->root);
+    if (this->rootOwner == nullptr)
+    {
+      j2Cleanup(&this->root);
+    }
+  }
+
+  settings_t::settings_t(J2VAL root, const settings_t* rootOwner)
+  :root(root),rootOwner(rootOwner)
+  {
+    ;
+  }
+
+  settings_t settings_t::Subroot(const char* path) const
+  {
+    J2VAL subroot = this->TraversePath(path);
+    if (subroot == nullptr)
+    {
+      THROW_ERROR("No subroot found");
+    }
+    return settings_t(subroot, this);
   }
 
   J2VAL settings_t::TraversePath(const char* path) const
@@ -66,23 +85,5 @@ namespace draw
     } while(*pathEnd != '\0');
     return objCursor;
   }
-
-  glm::vec4 ParseColor(const char* hexColStr)
-  { // parses strings like '#RRGGBBAA'
-    // where RR, GG, BB, AA - hex byte
-    if (*hexColStr == '#')
-    {
-      ++hexColStr;
-    }
-
-    uint32_t colorNum = strtoul(hexColStr, nullptr, 16);
-    return glm::vec4{
-      ((colorNum >> 24) & 0xFF)/255.0f,
-      ((colorNum >> 16) & 0xFF)/255.0f,
-      ((colorNum >> 8) & 0xFF)/255.0f,
-      ((colorNum ) & 0xFF)/255.0f
-    };
-  }
-
 
 } // namespace draw

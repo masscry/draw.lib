@@ -1,66 +1,60 @@
 /**
  * @brief Global and local settings class
  */
-#include <json2.h>
-#include <glm/glm.hpp>
+
+#pragma once
+#ifndef __DRAW_LIB_SETTINGS_T_HEADER__
+#define __DRAW_LIB_SETTINGS_T_HEADER__
 
 namespace draw
 {
 
-  glm::vec4 ParseColor(const char* hexColStr);
-
+  /**
+   * @brief This template used to detect how json types maps to c++ types
+   * 
+   * @tparam T c++ type to get json type
+   * @return constexpr int json type ID
+   */
   template<typename T>
-  constexpr int jsonExpectedType();
-
-  template<>
-  constexpr int jsonExpectedType<glm::vec4>()
+  constexpr int jsonExpectedType()
   {
-    return J2_STRING;
+    static_assert(jsonCXXTypeTraits<T>::JSON_TYPE != J2_UNDEF, "There is no known conversion to this type!");
+    return jsonCXXTypeTraits<T>::JSON_TYPE;
   }
 
-  template<>
-  constexpr int jsonExpectedType<const char*>()
-  {
-    return J2_STRING;
-  }
-
-  template<>
-  constexpr int jsonExpectedType<double>()
-  {
-    return J2_NUMBER;
-  }
-
+  /**
+   * @brief Function unboxes value inside json object
+   * 
+   * @tparam T c++ data type expected in json object
+   * @param value json object to unbox
+   * @return T unboxed value
+   */
   template<typename T>
-  inline T jsonUnbox(J2VAL value);
-
-  template<>
-  inline const char* jsonUnbox<const char*>(J2VAL value)
+  inline T jsonUnbox(J2VAL value)
   {
-    return j2ValueString(value);
-  }
-
-  template<>
-  inline double jsonUnbox<double>(J2VAL value)
-  {
-    return j2ValueNumber(value);
-  }
-
-  template<>
-  inline glm::vec4 jsonUnbox<glm::vec4>(J2VAL value)
-  {
-    return ParseColor(j2ValueString(value));
+    return jsonCXXTypeTraits<T>::unbox(value);
   }
 
   class settings_t final
   {
     J2VAL root;
+    const settings_t* rootOwner;
 
     settings_t(const settings_t&) = delete;
     settings_t& operator = (const settings_t&) = delete;
 
     J2VAL TraversePath(const char* path) const;
 
+    settings_t(J2VAL root, const settings_t* rootOwner);
+
   public:
+
+    settings_t Subroot(const char* path) const;
+
+    bool IsRootOwner() const
+    {
+      return this->rootOwner == nullptr;
+    }
 
     settings_t(settings_t&& move) = default;
     settings_t& operator = (settings_t&& move) = default;
@@ -106,3 +100,5 @@ namespace draw
   }
 
 } // namespace draw
+
+#endif /* __DRAW_LIB_SETTINGS_T_HEADER__ */

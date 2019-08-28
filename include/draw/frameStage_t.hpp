@@ -13,6 +13,7 @@
 #define __DRAW_LIB_FRAME_STAGE_HEADER__
 
 #include <cassert>
+#include <glm/glm.hpp>
 
 namespace draw
 {
