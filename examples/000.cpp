@@ -30,9 +30,19 @@ layout(location = 0) out vec4 fCol;
 
 in vec4 vCol;
 
+float zNear = 1.0f;
+float zFar  = 20.0f;
+
+float linearDepth(float depth) 
+{
+    float z = depth * 2.0 - 1.0; 
+    return (2.0 * zNear * zFar) / (zFar + zNear - z * (zFar - zNear));	
+}
+
 void main()
 {
-  fCol = vCol;
+  float depth = linearDepth(gl_FragCoord.z) / zFar;
+  fCol = vec4(vec3(depth), 1.0);
 }
 
 )shader";
@@ -47,7 +57,7 @@ class sampleFrame:public draw::frameStage_t
   {
     draw::system_t& instance = draw::system_t::Instance();
     instance.Bind(*this->shader);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     this->camera.Use();
     this->mesh.Draw();
   }
@@ -61,25 +71,9 @@ public:
 
   sampleFrame()
   {
-    this->mesh.Vertecies().emplace_back(
-      draw::vertex_t({ -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f }, {  1.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f })
-    );
-    this->mesh.Vertecies().emplace_back(
-      draw::vertex_t({ -0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f }, {  0.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f })
-    );
-    this->mesh.Vertecies().emplace_back(
-      draw::vertex_t({  0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f }, {  1.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f })
-    );
-    this->mesh.Vertecies().emplace_back(
-      draw::vertex_t({  0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 0.0f }, {  0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 0.0f })
-    );
+    draw::system_t& instance = draw::system_t::Instance();
 
-    this->mesh.Indecies().emplace_back(0);
-    this->mesh.Indecies().emplace_back(1);
-    this->mesh.Indecies().emplace_back(2);
-    this->mesh.Indecies().emplace_back(2);
-    this->mesh.Indecies().emplace_back(1);
-    this->mesh.Indecies().emplace_back(3);
+    draw::LoadObj(instance.Settings().Param<const char*>("scene/model"), this->mesh);
 
     this->mesh.CopyToGPU();
 
@@ -89,8 +83,6 @@ public:
       glGetUniformLocation(this->shader->Handle(), "matProj"),
       glGetUniformLocation(this->shader->Handle(), "matModelView")
     );
-
-    draw::system_t& instance = draw::system_t::Instance();
 
     this->camera.ModelView() = glm::lookAt(
       instance.Settings().Param("scene/camera/pos",    glm::vec3(5.0f, 5.0f, 5.0f)),
@@ -116,8 +108,8 @@ int main(int /*unused*/, char** /*unused*/)
 
     fprintf(stderr, "Start Draw: %f\n", start);
 
-    fprintf(stderr, "Let's sleep for 3 sec\n");
-    instance.Sleep(3.0);
+//    fprintf(stderr, "Let's sleep for 3 sec\n");
+//    instance.Sleep(3.0);
     
     while (instance.IsRunning())
     {

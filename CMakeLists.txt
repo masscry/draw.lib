@@ -63,6 +63,7 @@ add_library(draw STATIC
   src/settings_t.cpp
   src/camera_t.cpp
   src/mesh_t.cpp
+  src/wavefront.cpp
 
   # HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h

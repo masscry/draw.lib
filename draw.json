@@ -5,11 +5,12 @@
     "title": "Sample"
   },
   "scene": {
-    "clcolor": "#294929FF",
+    "clcolor": "#111111FF",
     "camera": {
-      "pos":    [ 1.0, 1.0, 1.0 ],
+      "pos":    [ 3.0, 3.0, 3.0 ],
       "origin": [ 0.0, 0.0, 0.0 ],
       "up":     [ 0.0, 1.0, 0.0 ]
-    }
+    },
+    "model": "share/car-micro-green.obj"
   }
 }

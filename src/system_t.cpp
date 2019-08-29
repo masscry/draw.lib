@@ -56,6 +56,9 @@ namespace draw
     glm::vec4 clearColor = this->settings.Param("scene/clcolor", glm::vec4{0.16, 0.16, 0.16, 1.0});
 
     glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
+    glDepthFunc(GL_LESS);
+    glEnable(GL_DEPTH_TEST);
   }
 
   system_t::~system_t()

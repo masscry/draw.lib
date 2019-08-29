@@ -84,6 +84,8 @@ namespace draw
 
   };
 
+  void LoadObj(const char* filename, mesh_t& result);
+
 } // namespace draw
 
 

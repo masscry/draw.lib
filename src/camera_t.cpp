@@ -14,7 +14,7 @@ namespace draw
   :projection(), modelView(1.0f)
   {
     glm::vec2 size = system_t::Instance().WindowSize();
-    this->projection = glm::perspective(glm::radians(45.0f), size.x/size.y, 0.1f, 1000.0f);
+    this->projection = glm::perspective(glm::radians(45.0f), size.x/size.y, 1.0f, 20.0f);
   }
 
   void camera_t::Bind(GLuint projUniform, GLuint mvUniform)
