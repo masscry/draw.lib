@@ -36,6 +36,11 @@ namespace draw
       return this->line;
     }
 
+    explicit error_t(const std::string& error, const char* filename, int line)
+    :std::runtime_error(error), filename(filename), line(line) {
+      ;
+    }
+
     explicit error_t(const char* error, const char* filename, int line)
     :std::runtime_error(error), filename(filename), line(line) {
       ;
