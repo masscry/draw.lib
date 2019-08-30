@@ -95,7 +95,8 @@ public:
 
 int main(int /*unused*/, char** /*unused*/)
 {
-  try {
+  try 
+  {
     draw::system_t& instance = draw::system_t::Instance();
 
     int stageID = instance.AddFrameStage(new sampleFrame());
@@ -104,9 +105,6 @@ int main(int /*unused*/, char** /*unused*/)
     double mark  = start;
 
     instance.Log(draw::system_t::INFO, "Start Draw: %f\n", start);
-    instance.Log(draw::system_t::INFO, "%s", "Let's sleep for 3 sec\n");
-
-    instance.Sleep(3.0);
     
     while (instance.IsRunning())
     {
@@ -124,6 +122,8 @@ int main(int /*unused*/, char** /*unused*/)
   catch(const draw::error_t& err)
   {
     fprintf(stderr, "%s:%d: %s\n", err.whatFile(), err.whatLine(), err.what());
+    fprintf(stderr, "%s\n", "=== STACK TRACE ===");
+    fprintf(stderr, "%s\n", err.whatTrace());
     return -1;
   }
   return 0;
