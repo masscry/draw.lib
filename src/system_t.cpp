@@ -18,6 +18,11 @@
 #include <cstring>
 #include <ctime>
 
+#ifdef DRAW_PLATFORM_UNIX
+#include <execinfo.h>
+#include <unistd.h>
+#endif
+
 namespace draw
 {
 
@@ -206,5 +211,42 @@ namespace draw
     this->cleanup(this->handle);
     this->handle = 0;
   }
+
+#if DRAW_PLATFORM_UNIX
+
+  #define STACK_TRACE_DEEP (10)
+  #define STACK_TRACE_FULL (STACK_TRACE_DEEP + 1)
+
+  std::string BuildStackTrace()
+  {
+    void*  funcs[STACK_TRACE_FULL];
+    char** texts;
+
+    int total = backtrace(funcs, STACK_TRACE_FULL);
+    if (total == 0)
+    {
+      return std::string("EMPTY");
+    }
+
+    // skip this func, because it is just helper 
+    texts = backtrace_symbols(funcs+1, total - 1);
+    if (texts == nullptr)
+    {
+      return std::string("NO SYMBOLS");
+    }
+
+    std::string result;
+
+    for (int i = 0; i < total-1; ++i)
+    {
+      result += texts[i];
+      result += '\n';
+    }
+    free(texts);
+    return result;
+  }
+
+#endif /* DRAW_PLATFORM_UNIX */
+
 
 } // namespace draw

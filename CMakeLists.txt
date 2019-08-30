@@ -86,4 +86,7 @@ add_executable(ex000
   examples/000.cpp
 )
 
-target_link_libraries(ex000 PRIVATE draw)
+target_link_libraries(ex000 PRIVATE
+  draw
+  $<$<PLATFORM_ID:Linux>:-rdynamic> # this flag needed backtrace, if need verbose stack trace
+)

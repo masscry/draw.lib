@@ -18,6 +18,8 @@
 namespace draw
 {
 
+  std::string BuildStackTrace();
+
   /**
    * @brief Default draw.lib exception
    */
@@ -25,8 +27,13 @@ namespace draw
 
     const char* filename;
     int line;
+    std::string trace;
 
   public:
+
+    const char* whatTrace() const noexcept {
+      return this->trace.c_str();
+    }
 
     const char* whatFile() const noexcept {
       return this->filename;
@@ -36,30 +43,20 @@ namespace draw
       return this->line;
     }
 
-    explicit error_t(const std::string& error, const char* filename, int line)
-    :std::runtime_error(error), filename(filename), line(line) {
+    explicit error_t(std::string error, const char* filename, int line, std::string trace)
+    :std::runtime_error(error), filename(filename), line(line),trace(trace) {
       ;
     }
 
-    explicit error_t(const char* error, const char* filename, int line)
-    :std::runtime_error(error), filename(filename), line(line) {
+    explicit error_t(const char* error, const char* filename, int line, std::string trace)
+    :std::runtime_error(error), filename(filename), line(line),trace(trace) {
       ;
     }
 
-    error_t(const error_t& copy) noexcept
-    :std::runtime_error(copy), filename(copy.filename), line(copy.line) {
-      ;
-    }
-
-    error_t& operator=(const error_t& copy) {
-      if (this != &copy)
-      {
-        this->std::runtime_error::operator=(copy);
-        this->filename = copy.filename;
-        this->line = copy.line;
-      }
-      return *this;
-    }
+    error_t(const error_t& copy) = default;
+    error_t& operator=(const error_t& copy) = default;
+    error_t(error_t&& move) = default;
+    error_t& operator=(error_t&& move) = default;
 
   };
 
@@ -68,6 +65,6 @@ namespace draw
 /**
  * @brief Default way to throw exceptions in draw.lib
  */
-#define THROW_ERROR(TEXT) throw draw::error_t(TEXT, __FILE__, __LINE__)
+#define THROW_ERROR(TEXT) throw draw::error_t(TEXT, __FILE__, __LINE__, BuildStackTrace())
 
 #endif /* __DRAW_LIB_ERROR_T_HEADER__ */
