@@ -21,7 +21,7 @@
 namespace draw
 {
 
-  system_t::system_t():window(nullptr),settings("./draw.json")
+  system_t::system_t():window(nullptr),settings("./draw.json"),logLevel(INFO)
   {
     if (glfwInit() == GLFW_FALSE)
     {
@@ -63,10 +63,15 @@ namespace draw
 
   system_t::~system_t()
   {
-    for(frameStage_t* stage: this->stages)
+    for (auto& stage: this->stages)
     {
-      stage->Delete();
+      if (stage)
+      {
+        this->Log(WARNING, "Stage [%d] removed implicitly\n", stage->RegisteredID());
+        this->RemoveFrameStage(stage->RegisteredID());
+      }
     }
+    this->stages.clear();
 
     if (this->window != nullptr)
     {
@@ -89,7 +94,7 @@ namespace draw
 
   void system_t::Render() noexcept
   {
-    for(frameStage_t* stage: this->stages)
+    for(auto& stage: this->stages)
     {
       /*
        * @todo implement better frame stage management 
@@ -112,7 +117,7 @@ namespace draw
   {
     assert(stage != nullptr);            // only valid pointers expected
     assert(stage->RegisteredID() == -1); // only not registered stages expected
-    this->stages.push_back(stage);
+    this->stages.emplace_back(stage);
     stage->SetRegisteredID(this->stages.size()-1);
     return stage->RegisteredID();
   }
@@ -123,7 +128,7 @@ namespace draw
     if (this->stages[id] != nullptr)
     {
       this->stages[id]->SetRegisteredID(-1);
-      this->stages[id]->Delete();
+      this->stages[id].reset();
       this->stages[id] = nullptr;
     }
     while (this->stages.back() == nullptr)
@@ -131,6 +136,8 @@ namespace draw
       this->stages.pop_back();
     }
   }
+
+
 
 #if DRAW_PLATFORM_UNIX
 

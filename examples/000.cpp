@@ -61,12 +61,11 @@ class sampleFrame:public draw::frameStage_t
     this->camera.Use();
     this->mesh.Draw();
   }
-  
-  bool IsDynamic() override
-  {
-    return false;
-  }
 
+protected:
+
+  ~sampleFrame() = default;
+  
 public:
 
   sampleFrame()
@@ -92,24 +91,22 @@ public:
 
   }
 
-  ~sampleFrame() override = default;
 };
 
 int main(int /*unused*/, char** /*unused*/)
 {
   try {
     draw::system_t& instance = draw::system_t::Instance();
-    sampleFrame frame;
 
-    int stageID = instance.AddFrameStage(&frame);
+    int stageID = instance.AddFrameStage(new sampleFrame());
 
     double start = instance.Timestamp();
     double mark  = start;
 
-    fprintf(stderr, "Start Draw: %f\n", start);
+    instance.Log(draw::system_t::INFO, "Start Draw: %f\n", start);
+    instance.Log(draw::system_t::INFO, "%s", "Let's sleep for 3 sec\n");
 
-//    fprintf(stderr, "Let's sleep for 3 sec\n");
-//    instance.Sleep(3.0);
+    instance.Sleep(3.0);
     
     while (instance.IsRunning())
     {
@@ -117,11 +114,11 @@ int main(int /*unused*/, char** /*unused*/)
       instance.Render();
       if (now - mark >= 1.0)
       {
-        fprintf(stderr, "Time Passed: %f\n", now - start);
+        instance.Log(draw::system_t::INFO, "Time Passed: %f\n", now - start);
         mark = now;
       }
     }
-    fprintf(stderr, "After Draw Finished: %f\n", instance.Timestamp());
+    instance.Log(draw::system_t::INFO, "After Draw Finished: %f\n", instance.Timestamp());
     instance.RemoveFrameStage(stageID);
   }
   catch(const draw::error_t& err)

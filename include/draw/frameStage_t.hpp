@@ -14,6 +14,7 @@
 
 #include <cassert>
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace draw
 {
@@ -30,15 +31,6 @@ namespace draw
      * @brief Called when frame stage must be rendered.
      */
     virtual void OnRender()  = 0;
-
-    /**
-     * @brief Must return true if this frame stage is not a singleton and
-     * allocated on heap
-     * 
-     * @return true frame stage is allocated on heap
-     * @return false frame stage is singleton
-     */
-    virtual bool IsDynamic() = 0;
 
     frameStage_t(const frameStage_t&) = delete;
     frameStage_t& operator = (const frameStage_t&) = delete;
@@ -58,7 +50,22 @@ namespace draw
       this->index = index;
     }
 
+  protected:
+
+    virtual ~frameStage_t()
+    { // Must unregister this stage before its termination 
+      assert(this->RegisteredID() < 0);
+    }
+
   public:
+
+    struct Destructor
+    {
+      void operator()(frameStage_t* oldFrameStage)
+      {
+        delete oldFrameStage;
+      }
+    };
 
     /**
      * @brief Get registered ID
@@ -75,24 +82,14 @@ namespace draw
       this->OnRender();
     }
 
-    void Delete() noexcept
-    {
-      if (this->IsDynamic())
-      {
-        delete this;
-      }
-    }
-
     frameStage_t() noexcept
     :index(-1) {
       ;
     }
-    
-    virtual ~frameStage_t()
-    { // Must unregister this stage before its termination 
-      assert(this->RegisteredID() < 0);
-    }
+
   };
+
+  typedef std::unique_ptr<frameStage_t, frameStage_t::Destructor> uniqueFrameStage_t;
 
 } // namespace draw
 

@@ -25,17 +25,30 @@ namespace draw
   class glResource_t;
 
   typedef std::shared_ptr<glResource_t> glSharedResource_t;
-
+  
   class system_t final {
+  public:
+
+    enum logLevel_t
+    {
+      DEBUG   = -1,
+      INFO    =  0,
+      WARNING,
+      ERROR,
+      TOTAL
+    };
+
+  private:
 
     friend class frameStage_t;
 
-    typedef std::vector<frameStage_t*> vectorOfFrameStages_t;
+    typedef std::vector<uniqueFrameStage_t> vectorOfFrameStages_t;
 
     GLFWwindow*           window;
     vectorOfFrameStages_t stages;
     settings_t            settings;
     glm::vec2             winsize;
+    logLevel_t            logLevel;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -47,6 +60,15 @@ namespace draw
     ~system_t();
 
   public:
+
+    template<typename ...args_t>
+    void Log(logLevel_t level, const char* format, args_t... args)
+    {
+      if (level >= this->logLevel)
+      {
+        fprintf(stderr, format, args...);
+      }
+    }
 
     glm::vec2 WindowSize() const
     {
