@@ -114,6 +114,8 @@ namespace draw
      */
     const settings_t& Settings() const noexcept;
 
+    std::string AbsolutePath(const char* relpath);
+
   };
 
 } // namespace draw

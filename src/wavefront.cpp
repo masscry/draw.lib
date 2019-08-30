@@ -1,6 +1,7 @@
 #include <draw.hpp>
 #include <fstream>
 #include <sstream>
+#include <unordered_map>
 
 namespace draw
 {
@@ -123,10 +124,71 @@ namespace draw
     return 3;
   }
 
+  typedef std::unordered_map<std::string, glm::vec4> objMatLib;
+
+  objMatLib LoadMaterialLibrary(const char* filename)
+  {
+    objMatLib result;
+    std::ifstream input;
+
+    input.open(filename, std::ios::in);
+    if (!input.good())
+    {
+      THROW_ERROR("Can't open MTL file");
+    }
+
+    std::string line;
+    std::string cmd;
+    std::istringstream tokenizer;
+    uint32_t lineCount = 0;
+
+    glm::vec4 tempMatColor;
+    std::string tempMatName;
+
+    while(std::getline(input, line))
+    {
+      ++lineCount;
+      if ((line.empty()) || (line[0] == '#'))
+      { // Skip comments
+        continue;
+      }
+
+      tokenizer.str(line);
+      tokenizer.clear();
+
+      tokenizer >> cmd;
+
+      if (cmd.compare("newmtl") == 0)
+      {
+        tokenizer >> tempMatName;
+        continue;
+      }
+
+      if (cmd.compare("Kd") == 0)
+      {
+        tokenizer >> tempMatColor.r >> tempMatColor.g >> tempMatColor.b;
+        tempMatColor.a = 1.0f;
+        if (result.find(tempMatName) != result.end())
+        { // Invalid format! Already has that
+          THROW_ERROR(
+            FormatLoadObjError(filename, lineCount, tempMatName.c_str())
+          );
+        }
+        result[tempMatName] = tempMatColor;
+        continue;
+      }
+    }
+    return result;
+  }
+
   void LoadObj(const char* filename, mesh_t& result)
   {
+    std::string fullPath;
     std::ifstream input;
-    input.open(filename, std::ios::in);
+
+    fullPath = draw::system_t::Instance().AbsolutePath(filename);
+
+    input.open(fullPath, std::ios::in);
     if (!input.good())
     {
       THROW_ERROR("Can't open OBJ file");
@@ -143,6 +205,8 @@ namespace draw
     std::vector<glm::vec3> tempVertecies;
     std::vector<glm::vec3> tempNormals;
     std::vector<glm::vec2> tempUV;
+    objMatLib matLib;
+    glm::vec4 curMatColor;
 
     while(std::getline(input, line))
     {
@@ -160,7 +224,31 @@ namespace draw
       switch(SelectObjCommand(cmd.c_str()))
       {
         case OC_MTLLIB:
+        {
+          size_t lastSplit = fullPath.find_last_of(DRAW_PATH_DELIM);
+          std::string mtlPath = fullPath.substr(0, lastSplit);
+          std::string mtlName;
+
+          tokenizer >> mtlName;
+
+          mtlPath += DRAW_PATH_DELIM;
+          mtlPath += mtlName;
+
+          matLib = LoadMaterialLibrary(mtlPath.c_str());
+          break;
+        }
         case OC_USEMTL:
+        {
+          std::string mtlName;
+          tokenizer >> mtlName;
+          auto foundMat = matLib.find(mtlName);
+          if (foundMat == matLib.end())
+          {
+            THROW_ERROR(FormatLoadObjError(filename, lineCount, "Can't find material"));
+          }
+          curMatColor = foundMat->second;
+          break;
+        }
         case OC_OBJECT:
         case OC_GROUP:
         case OC_SMOOTH:
@@ -226,6 +314,7 @@ namespace draw
             }
 
             tempVertex.pos = tempVertecies[vi-1];
+            tempVertex.col = curMatColor;
             result.Vertecies().push_back(tempVertex);
             result.Indecies().push_back(result.Vertecies().size()-1);
           }

@@ -161,6 +161,22 @@ namespace draw
     return this->settings;
   }
 
+#if DRAW_PLATFORM_UNIX
+
+  std::string system_t::AbsolutePath(const char* relpath)
+  {
+    char* tempAbsPath = realpath(relpath, nullptr);
+    if (tempAbsPath == nullptr)
+    {
+      THROW_ERROR("Failed to get absolute path");
+    }
+    std::string result(tempAbsPath);
+    free(tempAbsPath);
+    return result;
+  }
+
+#endif /* DRAW_PLATFORM_UNIX */
+
   void glResource_t::DoNothing(GLuint /*notused*/)
   {
     ;

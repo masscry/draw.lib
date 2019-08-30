@@ -42,7 +42,7 @@ float linearDepth(float depth)
 void main()
 {
   float depth = linearDepth(gl_FragCoord.z) / zFar;
-  fCol = vec4(vec3(depth), 1.0);
+  fCol = vCol*max(depth, 0.6);
 }
 
 )shader";

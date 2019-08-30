@@ -23,8 +23,19 @@
 #define DRAW_PLATFORM_UNIX  (@DRAW_PLATFORM_UNIX@)
 #define DRAW_PLATFORM_WIN32 (@DRAW_PLATFORM_WIN32@)
 
+#if DRAW_PLATFORM_UNIX
+#define DRAW_PATH_DELIM ('/')
+#endif
+#if DRAW_PLATFORM_WIN32
+#define DRAW_PATH_DELIM ('\\')
+#endif
+
 #if DRAW_PLATFORM_WIN32
 #error "Win32 currently is not supported"
 #endif 
+
+#ifndef DRAW_PATH_DELIM
+#error "Unknown path delimeter for platform"
+#endif
 
 #endif /* __DRAW_CONFIG_HEADER__ */

@@ -6,16 +6,18 @@ project(draw
   LANGUAGES CXX
 )
 
-find_program(CLANG_TIDY_CHECK NAMES clang-tidy)
+if (DRAW_USE_CLANG_TIDY)
+  find_program(CLANG_TIDY_CHECK NAMES clang-tidy)
 
-if (CLANG_TIDY_CHECK)
-  message(STATUS "clang-tidy checks enabled")
-  set(CMAKE_CXX_CLANG_TIDY
-    clang-tidy
-    -checks=bugprone-*,cert-*,clang-*,modernize-*,perfomance-*,readability-*,misc-*,google-*,portability-*
-    -header-filter=*
-  )
-endif(CLANG_TIDY_CHECK)
+  if (CLANG_TIDY_CHECK)
+    message(STATUS "clang-tidy checks enabled")
+    set(CMAKE_CXX_CLANG_TIDY
+      clang-tidy
+      -checks=bugprone-*,cert-*,clang-*,modernize-*,perfomance-*,readability-*,misc-*,google-*,portability-*
+      -header-filter=*
+    )
+  endif(CLANG_TIDY_CHECK)
+endif(DRAW_USE_CLANG_TIDY)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
