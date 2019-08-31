@@ -1,6 +1,4 @@
 #include <draw.hpp>
-#include <cstdio>
-#include <glm/gtc/matrix_transform.hpp>
 
 const char* vShader = R"shader(
 #version 330 core
@@ -88,7 +86,7 @@ public:
     draw::LoadObj(instance.Settings().Param<const char*>("scene/model"), this->mesh);
 
     draw::MakePlane(
-      instance.Settings().Param("scene/floor/size", glm::vec3(1.0f, 1.0f, 0.0f)),
+      glm::xy(instance.Settings().Param("scene/floor/size", glm::vec3(1.0f, 1.0f, 0.0f))),
       this->plane
     );
 
