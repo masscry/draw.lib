@@ -32,10 +32,10 @@ namespace draw
   typedef std::vector<vertex_t> vertexArray_t;
   typedef std::vector<uint32_t> indexArray_t;
 
-  class mesh_t
+  class mesh_t final
   {
     vertexArray_t vertecies;
-    indexArray_t indecies;
+    indexArray_t  indecies;
 
     glSharedResource_t vao;
     glSharedResource_t vBuffer;
@@ -50,7 +50,7 @@ namespace draw
   public:
 
     mesh_t() = default;
-    virtual ~mesh_t() = default;
+    ~mesh_t() = default;
 
     const indexArray_t& Indecies() const
     {
@@ -78,9 +78,49 @@ namespace draw
 
   };
 
+  typedef std::shared_ptr<mesh_t> sharedMesh_t;
+
+  class actor_t final
+  {
+    glm::mat4 transform;
+    sharedMesh_t mesh;
+  public:
+
+    sharedMesh_t& Mesh()
+    {
+      return this->mesh;
+    }
+
+    const sharedMesh_t& Mesh() const
+    {
+      return this->mesh;
+    }
+
+    glm::mat4& Transform()
+    {
+      return this->transform;
+    }
+
+    const glm::mat4& Transform() const
+    {
+      return this->transform;
+    }
+
+    void Draw(const camera_t& camView) const;
+
+    actor_t();
+
+    actor_t(glm::mat4 transform, sharedMesh_t mesh);
+
+    ~actor_t() = default;
+
+  };
+
   void LoadObj(const char* filename, mesh_t& result);
 
   void MakePlane(glm::vec2 size, mesh_t& result, glm::vec4 color = glm::vec4(1.0f));
+
+  void MakeTextString(glm::vec2 size, glm::ivec2 count, const char* text, mesh_t& result);
 
 } // namespace draw
 

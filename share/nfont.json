@@ -1,4 +1,5 @@
 {
-  "texture": "nfont.tga"
+  "texture": "nfont.tga",
+  "size": [ 16, 16 ]
 }
 

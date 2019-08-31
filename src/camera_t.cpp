@@ -27,4 +27,12 @@ namespace draw
     glUniformMatrix4fv(this->mvUniform,   1, GL_FALSE, &this->modelView[0][0]);
   }
 
+  void camera_t::Use(const glm::mat4& transform) const
+  {
+    glm::mat4 temp = this->modelView * transform;
+    glUniformMatrix4fv(this->projUniform, 1, GL_FALSE, &this->projection[0][0]);
+    glUniformMatrix4fv(this->mvUniform,   1, GL_FALSE, &temp[0][0]);
+  }
+
+
 } // namespace draw

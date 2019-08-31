@@ -29,6 +29,8 @@ namespace draw
 
     void Use() const;
 
+    void Use(const glm::mat4& transform) const;
+
     camera_t(const camera_t&) = default;
     camera_t& operator = (const camera_t&) = default;
     camera_t(camera_t&&) = default;

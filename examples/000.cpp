@@ -53,24 +53,29 @@ void main()
 
 class sampleFrame:public draw::frameStage_t
 {
-  draw::mesh_t mesh;
-  draw::mesh_t plane;
+  draw::camera_t camera;
+  draw::actor_t car;
+  draw::actor_t road;
+  draw::actor_t text;
+
   draw::glSharedResource_t shader;
   draw::glSharedResource_t planeTexture;
-  draw::camera_t camera;
+  draw::glSharedResource_t fontTexture;
 
   void OnRender() override
   {
     draw::system_t& instance = draw::system_t::Instance();
     instance.Bind(*this->shader);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    this->camera.Use();
 
     instance.Bind(*this->planeTexture);
-    this->plane.Draw();
-
+    this->road.Draw(this->camera);
+  
     instance.Bind(*draw::glTexture_t::None());
-    this->mesh.Draw();
+    this->car.Draw(this->camera);
+
+    instance.Bind(*this->fontTexture);
+    this->text.Draw(this->camera);
   }
 
 protected:
@@ -83,19 +88,32 @@ public:
   {
     draw::system_t& instance = draw::system_t::Instance();
 
-    draw::LoadObj(instance.Settings().Param<const char*>("scene/model"), this->mesh);
+    draw::LoadObj(
+      instance.Settings().Param<const char*>("scene/model"),
+      *this->car.Mesh()
+    );
 
     draw::MakePlane(
       glm::xy(instance.Settings().Param("scene/floor/size", glm::vec3(1.0f, 1.0f, 0.0f))),
-      this->plane
+      *this->road.Mesh()
     );
 
-    this->mesh.CopyToGPU();
-    this->plane.CopyToGPU();
+    draw::MakeTextString(
+      glm::vec2(0.3f, 0.3f), glm::ivec2(16, 16), "Sample",
+      *this->text.Mesh()
+    );
+
+    this->car.Mesh()->CopyToGPU();
+    this->road.Mesh()->CopyToGPU();
+    this->text.Mesh()->CopyToGPU();
+
+    this->text.Transform() = glm::translate(this->text.Transform(), glm::vec3(0.0f, 1.3f, 1.0f));
+    this->text.Transform() = glm::rotate(this->text.Transform(), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);
 
     this->planeTexture = draw::LoadTGA(instance.Settings().Param<const char*>("scene/floor/texture"));
+    this->fontTexture = draw::LoadTGA(instance.Settings().Param<const char*>("font"));
 
     this->camera.Bind(
       glGetUniformLocation(this->shader->Handle(), "matProj"),
