@@ -1,7 +1,5 @@
 #include <draw.hpp>
 
-#include <glm/gtc/matrix_transform.hpp>
-
 namespace draw
 {
   camera_t::camera_t(float fov, float width, float height, float near, float far)

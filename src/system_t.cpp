@@ -8,20 +8,7 @@
  * @copyright Copyright (c) 2019
  * 
  */
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <draw.hpp>
-
-#include <cassert>
-#include <cerrno>
-#include <cmath>
-#include <cstring>
-#include <ctime>
-
-#ifdef DRAW_PLATFORM_UNIX
-#include <execinfo.h>
-#include <unistd.h>
-#endif
 
 namespace draw
 {
@@ -145,52 +132,10 @@ namespace draw
     }
   }
 
-
-
-#if DRAW_PLATFORM_UNIX
-
-  double system_t::Timestamp() const noexcept
-  {
-    struct timespec ts{};
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return static_cast<double>(ts.tv_sec)
-      + static_cast<double>(ts.tv_nsec) * 1.0e-9;
-  }
-
-  void system_t::Sleep(double sec) const noexcept
-  {
-    assert(sec >= 0.0);
-    struct timespec ts{};
-    double frac = modf(sec, &sec);
-    ts.tv_sec = sec;
-    ts.tv_nsec = frac * 1e9;
-
-    // this may not work properly when process receives signal
-    clock_nanosleep(CLOCK_MONOTONIC, 0, &ts, nullptr); 
-  }
-
-#endif /* DRAW_PLATFORM_UNIX */
-
   const settings_t& system_t::Settings() const noexcept
   {
     return this->settings;
   }
-
-#if DRAW_PLATFORM_UNIX
-
-  std::string system_t::AbsolutePath(const char* relpath)
-  {
-    char* tempAbsPath = realpath(relpath, nullptr);
-    if (tempAbsPath == nullptr)
-    {
-      THROW_ERROR("Failed to get absolute path");
-    }
-    std::string result(tempAbsPath);
-    free(tempAbsPath);
-    return result;
-  }
-
-#endif /* DRAW_PLATFORM_UNIX */
 
   void glResource_t::DoNothing(GLuint /*notused*/)
   {
@@ -215,10 +160,50 @@ namespace draw
     this->handle = 0;
   }
 
-#if DRAW_PLATFORM_UNIX
+} // namespace draw
 
-  #define STACK_TRACE_DEEP (10)
-  #define STACK_TRACE_FULL (STACK_TRACE_DEEP + 1)
+#ifdef DRAW_PLATFORM_UNIX
+
+#include <execinfo.h>
+#include <unistd.h>
+
+#define STACK_TRACE_DEEP (10)
+#define STACK_TRACE_FULL (STACK_TRACE_DEEP + 1)
+
+namespace draw
+{
+
+  double system_t::Timestamp() const noexcept
+  {
+    struct timespec ts{};
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return static_cast<double>(ts.tv_sec)
+      + static_cast<double>(ts.tv_nsec) * 1.0e-9;
+  }
+
+  void system_t::Sleep(double sec) const noexcept
+  {
+    assert(sec >= 0.0);
+    struct timespec ts{};
+    double frac = modf(sec, &sec);
+    ts.tv_sec = sec;
+    ts.tv_nsec = frac * 1e9;
+
+    // this may not work properly when process receives signal
+    clock_nanosleep(CLOCK_MONOTONIC, 0, &ts, nullptr); 
+  }
+
+  std::string system_t::AbsolutePath(const char* relpath)
+  {
+    char* tempAbsPath = realpath(relpath, nullptr);
+    if (tempAbsPath == nullptr)
+    {
+      THROW_ERROR("Failed to get absolute path");
+    }
+    std::string result(tempAbsPath);
+    free(tempAbsPath);
+    return result;
+  }
 
   std::string BuildStackTrace()
   {
@@ -249,7 +234,6 @@ namespace draw
     return result;
   }
 
-#endif /* DRAW_PLATFORM_UNIX */
-
-
 } // namespace draw
+
+#endif /* DRAW_PLATFORM_UNIX */

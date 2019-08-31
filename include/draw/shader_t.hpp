@@ -12,8 +12,6 @@
 #ifndef __DRAW_LIB_SHADER_T_HEADER__
 #define __DRAW_LIB_SHADER_T_HEADER__
 
-#include <memory>
-
 namespace draw
 {
 

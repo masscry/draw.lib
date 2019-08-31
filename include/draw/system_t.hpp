@@ -12,11 +12,6 @@
 #ifndef __DRAW_LIB_SYSTEM_T_HEADER__
 #define __DRAW_LIB_SYSTEM_T_HEADER__
 
-#include <vector>
-#include <memory>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 namespace draw
 {
 

@@ -1,6 +1,4 @@
 #include <draw.hpp>
-#include <cstdio>
-#include <cstring>
 
 namespace draw
 {

@@ -2,8 +2,6 @@
 #ifndef __DRAW_LIB_CAMERA_T_HEADER__
 #define __DRAW_LIB_CAMERA_T_HEADER__
 
-#include <glm/glm.hpp>
-
 namespace draw
 {
   

@@ -321,9 +321,7 @@ namespace draw
           THROW_ERROR(FormatLoadObjError(filename, lineCount, cmd.c_str()));
         }
       }
-
     }
-
   }
 
 } // namespace draw

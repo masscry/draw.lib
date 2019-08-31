@@ -1,5 +1,4 @@
 #include <draw.hpp>
-#include <cstddef>
 
 namespace draw
 {
@@ -69,19 +68,19 @@ namespace draw
     result.Indecies().reserve(6);
 
     temp.pos = glm::vec3(-size.x, 0.0f, -size.y);
-    temp.uv  = glm::vec2(0.0f, 0.0f);
-    result.Vertecies().emplace_back(temp);
-
-    temp.pos = glm::vec3( size.x, 0.0f, -size.y);
-    temp.uv  = glm::vec2(1.0f, 0.0f);
-    result.Vertecies().emplace_back(temp);
-
-    temp.pos = glm::vec3(-size.x, 0.0f, size.y);
     temp.uv  = glm::vec2(0.0f, 1.0f);
     result.Vertecies().emplace_back(temp);
 
-    temp.pos = glm::vec3( size.x, 0.0f, size.y);
+    temp.pos = glm::vec3( size.x, 0.0f, -size.y);
+    temp.uv  = glm::vec2(0.0f, 0.0f);
+    result.Vertecies().emplace_back(temp);
+
+    temp.pos = glm::vec3(-size.x, 0.0f, size.y);
     temp.uv  = glm::vec2(1.0f, 1.0f);
+    result.Vertecies().emplace_back(temp);
+
+    temp.pos = glm::vec3( size.x, 0.0f, size.y);
+    temp.uv  = glm::vec2(1.0f, 0.0f);
     result.Vertecies().emplace_back(temp);
 
     result.Indecies().push_back(0);

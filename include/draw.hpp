@@ -13,6 +13,8 @@
 #define __DRAW_LIB_HEADER__
 
 #include <draw/config.h>
+#include <draw/precompile.hpp>
+
 #include <draw/error_t.hpp>
 #include <draw/frameStage_t.hpp>
 #include <draw/jsonHelpers.hpp>

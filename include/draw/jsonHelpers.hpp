@@ -2,9 +2,6 @@
 #ifndef __DRAW_LIB_JSON_HELPERS_HEADER__
 #define __DRAW_LIB_JSON_HELPERS_HEADER__
 
-#include <json2.h>
-#include <glm/glm.hpp>
-
 namespace draw
 {
 

@@ -2,12 +2,6 @@
 #ifndef __DRAW_LIB_MESH_T_HEADER__
 #define __DRAW_LIB_MESH_T_HEADER__
 
-#include <vector>
-#include <glm/glm.hpp>
-
-#include <draw/vao_t.hpp>
-#include <draw/system_t.hpp>
-
 namespace draw
 {
   
