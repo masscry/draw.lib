@@ -279,11 +279,6 @@ namespace draw
         { // read face indecies
           vertex_t tempVertex;
 
-          tempVertex.col.r = 0.5f;
-          tempVertex.col.g = 0.5f;
-          tempVertex.col.b = 0.5f;
-          tempVertex.col.a = 1.0f;
-
           while(!tokenizer.eof())
           {
             std::string textIndex; // v/vt/vn

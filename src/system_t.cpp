@@ -64,6 +64,8 @@ namespace draw
 
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   system_t::~system_t()
@@ -109,6 +111,7 @@ namespace draw
         stage->Render();
       }
     }
+    glFlush();
     glfwSwapBuffers(system_t::Instance().window);
     glfwPollEvents();
   }

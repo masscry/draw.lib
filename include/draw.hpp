@@ -19,6 +19,7 @@
 #include <draw/settings_t.hpp>
 #include <draw/system_t.hpp>
 #include <draw/shader_t.hpp>
+#include <draw/texture_t.hpp>
 #include <draw/vao_t.hpp>
 #include <draw/camera_t.hpp>
 #include <draw/mesh_t.hpp>

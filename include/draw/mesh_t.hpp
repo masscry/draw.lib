@@ -86,6 +86,8 @@ namespace draw
 
   void LoadObj(const char* filename, mesh_t& result);
 
+  void MakePlane(glm::vec2 size, mesh_t& result, glm::vec4 color = glm::vec4(1.0f));
+
 } // namespace draw
 
 

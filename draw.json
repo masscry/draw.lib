@@ -11,6 +11,7 @@
       "origin": [ 0.0, 0.0, 0.0 ],
       "up":     [ 0.0, 1.0, 0.0 ]
     },
-    "model": "share/car-micro-green.obj"
+    "model": "share/car-micro-green.obj",
+    "floor": "share/nfont.tga"
   }
 }

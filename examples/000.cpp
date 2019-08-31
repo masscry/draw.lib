@@ -14,11 +14,13 @@ uniform mat4 matProj;
 uniform mat4 matModelView;
 
 out vec4 vCol;
+out vec2 vUV;
 
 void main()
 {
   gl_Position = matProj * matModelView * vec4(pos, 1.0f);
   vCol = col;
+  vUV = uv;
 }
 
 )shader";
@@ -29,20 +31,24 @@ const char* fShader = R"shader(
 layout(location = 0) out vec4 fCol;
 
 in vec4 vCol;
+in vec2 vUV;
 
 float zNear = 1.0f;
-float zFar  = 20.0f;
+float zFar  = 15.0f;
+
+uniform sampler2D mainTex;
 
 float linearDepth(float depth) 
 {
-    float z = depth * 2.0 - 1.0; 
-    return (2.0 * zNear * zFar) / (zFar + zNear - z * (zFar - zNear));	
+  float z = depth * 2.0 - 1.0; 
+  return (2.0 * zNear * zFar) / (zFar + zNear - z * (zFar - zNear));	
 }
 
 void main()
 {
+  vec4 texColor = texture(mainTex, vUV);
   float depth = linearDepth(gl_FragCoord.z) / zFar;
-  fCol = vCol*max(depth, 0.6);
+  fCol = vec4(texColor.rgb*vCol.rgb*(1.0f-depth), texColor.a*vCol.a);
 }
 
 )shader";
@@ -50,7 +56,9 @@ void main()
 class sampleFrame:public draw::frameStage_t
 {
   draw::mesh_t mesh;
+  draw::mesh_t plane;
   draw::glSharedResource_t shader;
+  draw::glSharedResource_t planeTexture;
   draw::camera_t camera;
 
   void OnRender() override
@@ -59,6 +67,11 @@ class sampleFrame:public draw::frameStage_t
     instance.Bind(*this->shader);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     this->camera.Use();
+
+    instance.Bind(*this->planeTexture);
+    this->plane.Draw();
+
+    instance.Bind(*draw::glTexture_t::None());
     this->mesh.Draw();
   }
 
@@ -74,9 +87,14 @@ public:
 
     draw::LoadObj(instance.Settings().Param<const char*>("scene/model"), this->mesh);
 
+    draw::MakePlane(glm::vec2(5.0f), this->plane);
+
     this->mesh.CopyToGPU();
+    this->plane.CopyToGPU();
 
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);
+
+    this->planeTexture = draw::LoadTGA(instance.Settings().Param<const char*>("scene/floor"));
 
     this->camera.Bind(
       glGetUniformLocation(this->shader->Handle(), "matProj"),

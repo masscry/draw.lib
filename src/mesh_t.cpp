@@ -46,8 +46,50 @@ namespace draw
   {
     system_t& instance = system_t::Instance();
 
+    if (!(this->vao))
+    {
+      THROW_ERROR("Need mesh_t::CopyToGPU first!");
+    }
+
     instance.Bind(*this->vao);
     glDrawElements(GL_TRIANGLES, this->indecies.size(), GL_UNSIGNED_INT, nullptr);
+  }
+
+  void MakePlane(glm::vec2 size, mesh_t& result, glm::vec4 color)
+  {
+    vertex_t temp;
+
+    temp.col = color;
+    temp.norm = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    result.Vertecies().clear();
+    result.Indecies().clear();
+
+    result.Vertecies().reserve(4);
+    result.Indecies().reserve(6);
+
+    temp.pos = glm::vec3(-size.x, 0.0f, -size.y);
+    temp.uv  = glm::vec2(0.0f, 0.0f);
+    result.Vertecies().emplace_back(temp);
+
+    temp.pos = glm::vec3( size.x, 0.0f, -size.y);
+    temp.uv  = glm::vec2(1.0f, 0.0f);
+    result.Vertecies().emplace_back(temp);
+
+    temp.pos = glm::vec3(-size.x, 0.0f, size.y);
+    temp.uv  = glm::vec2(0.0f, 1.0f);
+    result.Vertecies().emplace_back(temp);
+
+    temp.pos = glm::vec3( size.x, 0.0f, size.y);
+    temp.uv  = glm::vec2(1.0f, 1.0f);
+    result.Vertecies().emplace_back(temp);
+
+    result.Indecies().push_back(0);
+    result.Indecies().push_back(1);
+    result.Indecies().push_back(2);
+    result.Indecies().push_back(1);
+    result.Indecies().push_back(2);
+    result.Indecies().push_back(3);
   }
 
 } /* namespace draw */
