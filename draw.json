@@ -12,6 +12,9 @@
       "up":     [ 0.0, 1.0, 0.0 ]
     },
     "model": "share/car-micro-green.obj",
-    "floor": "share/nfont.tga"
+    "floor": {
+      "texture": "share/road.tga",
+      "size": [ 2.0, 4.0, 0.0 ]
+    }
   }
 }

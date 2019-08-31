@@ -87,14 +87,17 @@ public:
 
     draw::LoadObj(instance.Settings().Param<const char*>("scene/model"), this->mesh);
 
-    draw::MakePlane(glm::vec2(5.0f), this->plane);
+    draw::MakePlane(
+      instance.Settings().Param("scene/floor/size", glm::vec3(1.0f, 1.0f, 0.0f)),
+      this->plane
+    );
 
     this->mesh.CopyToGPU();
     this->plane.CopyToGPU();
 
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);
 
-    this->planeTexture = draw::LoadTGA(instance.Settings().Param<const char*>("scene/floor"));
+    this->planeTexture = draw::LoadTGA(instance.Settings().Param<const char*>("scene/floor/texture"));
 
     this->camera.Bind(
       glGetUniformLocation(this->shader->Handle(), "matProj"),
