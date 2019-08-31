@@ -4,6 +4,7 @@
     "height": 768,
     "title": "Sample"
   },
+  "font": "share/nfont.tga",
   "scene": {
     "clcolor": "#111111FF",
     "camera": {
