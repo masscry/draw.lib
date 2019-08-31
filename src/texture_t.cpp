@@ -2,8 +2,6 @@
  * @brief shader releated code
  * 
  */
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <draw.hpp>
 
 namespace 

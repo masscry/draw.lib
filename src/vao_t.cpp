@@ -2,8 +2,6 @@
  * @brief vertex array buffer object releated code
  * 
  */
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <draw.hpp>
 
 namespace draw
