@@ -30,8 +30,9 @@ namespace
     uint16_t width;
     uint16_t height;
     uint8_t  depth;
-    uint8_t  alpha:4;
-    uint8_t  orig:2;
+    uint8_t  alpha:4; // 3-0 
+    uint8_t  _zero:1; // 4
+    uint8_t  orig:1;  // 5
     uint8_t  _res:2;
   };
   
@@ -139,6 +140,21 @@ namespace draw {
       uint8_t temp = bgra[index * 4];
       bgra[index * 4] = bgra[index * 4 + 2];
       bgra[index * 4 + 2] = temp;
+    }
+
+    if (head.is.orig == 0) {
+      // image origin in lower left corner
+      // so loader must change invert line order
+      std::vector<uint8_t> tempLine;
+      tempLine.resize(head.is.width*4);
+
+      size_t byteWidth = head.is.width*4;
+
+      for (int line = 0; line < head.is.height/2; ++line) {
+        memcpy(tempLine.data(), pixels.data() + line*byteWidth, byteWidth);
+        memcpy(pixels.data() + line*byteWidth, pixels.data() + (head.is.height - line - 1)*byteWidth, byteWidth);
+        memcpy(pixels.data() + (head.is.height - line - 1)*byteWidth, tempLine.data(), byteWidth);
+      }
     }
 
     return std::make_shared<glTexture_t>(glm::ivec2{head.is.width, head.is.height}, pixels.data());
