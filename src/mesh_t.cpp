@@ -113,7 +113,7 @@ namespace draw
     uint32_t totalVertex = 0;
     for (size_t index = 0; index < textLength; ++index)
     {
-      char smb = text[index];
+      int smb = static_cast<uint8_t>(text[index]);
       glm::ivec2 smbPos(smb%count.x, smb/count.y);
 
       temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
