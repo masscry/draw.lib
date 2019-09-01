@@ -24,6 +24,27 @@
       ],
       "preLaunchTask": "build all",
       "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "name": "Validate JSON",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/contrib/alpha0/js-valid",
+      "args": [ "${workspaceFolder}/contrib/alpha0/share/sample.jsn" ],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode":"gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build all",
+      "miDebuggerPath": "/usr/bin/gdb"
     }
   ]
 }
