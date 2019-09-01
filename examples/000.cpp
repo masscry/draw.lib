@@ -99,7 +99,8 @@ public:
     );
 
     draw::MakeTextString(
-      glm::vec2(0.3f, 0.3f), glm::ivec2(16, 16), "Sample",
+      glm::vec2(0.1f, 0.3f), glm::ivec2(16, 16), 
+      instance.Settings().Param("scene/text", "Sample"),
       *this->text.Mesh()
     );
 
