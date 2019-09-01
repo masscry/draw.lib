@@ -13,12 +13,14 @@ uniform mat4 matModelView;
 
 out vec4 vCol;
 out vec2 vUV;
+out vec4 vNormal;
 
 void main()
 {
   gl_Position = matProj * matModelView * vec4(pos, 1.0f);
   vCol = col;
   vUV = uv;
+  vNormal = normalize(matModelView * vec4(norm, 1.0f));
 }
 
 )shader";
@@ -30,23 +32,21 @@ layout(location = 0) out vec4 fCol;
 
 in vec4 vCol;
 in vec2 vUV;
+in vec4 vNormal;
 
 float zNear = 1.0f;
 float zFar  = 15.0f;
 
 uniform sampler2D mainTex;
 
-float linearDepth(float depth) 
-{
-  float z = depth * 2.0 - 1.0; 
-  return (2.0 * zNear * zFar) / (zFar + zNear - z * (zFar - zNear));	
-}
+const vec3 lightDir = normalize(vec3(-1.0f, -1.0f, -1.0f));
 
 void main()
 {
   vec4 texColor = texture(mainTex, vUV);
-  float depth = linearDepth(gl_FragCoord.z) / zFar;
-  fCol = vec4(texColor.rgb*vCol.rgb*(1.0f-depth), texColor.a*vCol.a);
+  float light = max(dot(vNormal.xyz, lightDir), 0.0f);
+
+  fCol = vec4(texColor.rgb*vCol.rgb*light, texColor.a*vCol.a);
 }
 
 )shader";

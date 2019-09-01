@@ -84,8 +84,8 @@ namespace draw
     result.Vertecies().emplace_back(temp);
 
     result.Indecies().push_back(0);
-    result.Indecies().push_back(1);
     result.Indecies().push_back(2);
+    result.Indecies().push_back(1);
     result.Indecies().push_back(1);
     result.Indecies().push_back(2);
     result.Indecies().push_back(3);
@@ -136,8 +136,8 @@ namespace draw
       result.Indecies().push_back(totalVertex+1);
       result.Indecies().push_back(totalVertex+2);
       result.Indecies().push_back(totalVertex+1);
-      result.Indecies().push_back(totalVertex+2);
       result.Indecies().push_back(totalVertex+3);
+      result.Indecies().push_back(totalVertex+2);
       totalVertex += 4;
       cursor.x += size.x;
     }

@@ -274,14 +274,21 @@ namespace draw
         }
         case OC_FACE:
         { // read face indecies
-          vertex_t tempVertex;
+          std::string textIndex; // v/vt/vn
+          vertex_t tempVertex[3];
+          int vCursor = 0;
+          bool hasNormals = false;
 
           while(!tokenizer.eof())
           {
-            std::string textIndex; // v/vt/vn
             uint32_t vi;
             uint32_t vti;
             uint32_t vni;
+
+            if (vCursor >= 3)
+            {
+              THROW_ERROR(FormatLoadObjError(filename, lineCount, "Only 3-vertex faces supported"));
+            }
 
             tokenizer >> textIndex;
 
@@ -290,24 +297,56 @@ namespace draw
             if (vi != 0)
             {
               assert(vi <= tempVertecies.size());
-              tempVertex.pos = tempVertecies[vi - 1];
+              tempVertex[vCursor].pos = tempVertecies[vi - 1];
             }
 
             if (vti != 0)
             {
               assert(vti <= tempUV.size());
-              tempVertex.uv = tempUV[vti - 1];
+              tempVertex[vCursor].uv = tempUV[vti - 1];
+            }
+            else
+            {
+              tempVertex[vCursor].uv = glm::vec2(0.0f);
             }
 
             if (vni != 0)
             {
               assert(vni <= tempNormals.size());
-              tempVertex.norm = tempNormals[vni - 1];
+              tempVertex[vCursor].norm = tempNormals[vni - 1];
+              hasNormals = true;
+            }
+            else
+            {
+              tempVertex[vCursor].norm = glm::vec3(0.0f);
             }
 
-            tempVertex.pos = tempVertecies[vi-1];
-            tempVertex.col = curMatColor;
-            result.Vertecies().push_back(tempVertex);
+            tempVertex[vCursor].pos = tempVertecies[vi-1];
+            tempVertex[vCursor].col = curMatColor;
+
+            ++vCursor;
+          }
+
+          if (vCursor != 3)
+          {
+            THROW_ERROR(FormatLoadObjError(filename, lineCount, "Only 3-vertex faces supported"));
+          }
+
+          if (!hasNormals)
+          {
+            glm::vec3 leftArm = tempVertex[1].pos - tempVertex[0].pos;
+            glm::vec3 rightArm = tempVertex[2].pos - tempVertex[0].pos;
+            glm::vec3 normal = glm::normalize(glm::cross(leftArm, rightArm));
+
+            for (int index = 0; index < vCursor; ++index)
+            {
+              tempVertex[index].norm = normal;
+            }
+          }
+
+          for (int index = 0; index < vCursor; ++index)
+          {
+            result.Vertecies().push_back(tempVertex[index]);
             result.Indecies().push_back(result.Vertecies().size()-1);
           }
           break;
