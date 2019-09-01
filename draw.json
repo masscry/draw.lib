@@ -16,6 +16,7 @@
     "floor": {
       "texture": "share/road.tga",
       "size": [ 2.0, 4.0, 0.0 ]
-    }
+    },
+    "text": "Пример!"
   }
 }
