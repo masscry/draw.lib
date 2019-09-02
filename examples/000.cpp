@@ -55,6 +55,7 @@ class sampleFrame:public draw::frameStage_t
 {
   draw::camera_t camera;
   draw::actor_t car;
+  draw::actor_t car2;
   draw::actor_t road;
   draw::actor_t text;
 
@@ -73,6 +74,9 @@ class sampleFrame:public draw::frameStage_t
   
     instance.Bind(*draw::glTexture_t::None());
     this->car.Draw(this->camera);
+
+    instance.Bind(*draw::glTexture_t::None());
+    this->car2.Draw(this->camera);
 
     instance.Bind(*this->fontTexture);
     this->text.Draw(this->camera);
@@ -105,9 +109,15 @@ public:
     );
 
     this->car.Mesh()->CopyToGPU();
-    this->road.Mesh()->CopyToGPU();
-    this->text.Mesh()->CopyToGPU();
+    this->car.Transform() = glm::translate(this->car.Transform(), glm::vec3(1.0f, 0.0f, 0.0f));
 
+    this->car2.Mesh() = this->car.Mesh();
+    this->car2.Transform() = glm::rotate(this->car2.Transform(), glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    this->car2.Transform() = glm::translate(this->car2.Transform(), glm::vec3(1.0f, 0.0f, -0.5f));
+
+    this->road.Mesh()->CopyToGPU();
+    
+    this->text.Mesh()->CopyToGPU();
     this->text.Transform() = glm::translate(this->text.Transform(), glm::vec3(0.0f, 1.3f, 1.0f));
     this->text.Transform() = glm::rotate(this->text.Transform(), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
