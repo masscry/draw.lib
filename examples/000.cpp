@@ -152,7 +152,7 @@ int main(int /*unused*/, char** /*unused*/)
     double start = instance.Timestamp();
     double mark  = start;
 
-    instance.Log(draw::system_t::INFO, "Start Draw: %f\n", start);
+    instance.Info("Start Draw: %f\n", start);
     
     while (instance.IsRunning())
     {
@@ -160,11 +160,11 @@ int main(int /*unused*/, char** /*unused*/)
       instance.Render();
       if (now - mark >= 1.0)
       {
-        instance.Log(draw::system_t::INFO, "Time Passed: %f\n", now - start);
+        instance.Info("Time Passed: %f\n", now - start);
         mark = now;
       }
     }
-    instance.Log(draw::system_t::INFO, "After Draw Finished: %f\n", instance.Timestamp());
+    instance.Info("After Draw Finished: %f\n", instance.Timestamp());
     instance.RemoveFrameStage(stageID);
   }
   catch(const draw::error_t& err)

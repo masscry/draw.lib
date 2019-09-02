@@ -54,8 +54,6 @@ namespace draw
     system_t();
     ~system_t();
 
-  public:
-
     template<typename ...args_t>
     void Log(logLevel_t level, const char* format, args_t... args)
     {
@@ -63,6 +61,32 @@ namespace draw
       {
         fprintf(stderr, format, args...);
       }
+    }
+
+  public:
+
+    template<typename ...args_t>
+    void Debug(const char* format, args_t... args)
+    {
+      this->Log(DEBUG, format, args...);
+    }
+
+    template<typename ...args_t>
+    void Info(const char* format, args_t... args)
+    {
+      this->Log(INFO, format, args...);
+    }
+
+    template<typename ...args_t>
+    void Warning(const char* format, args_t... args)
+    {
+      this->Log(WARNING, format, args...);
+    }
+
+    template<typename ...args_t>
+    void Error(const char* format, args_t... args)
+    {
+      this->Log(ERROR, format, args...);
     }
 
     glm::vec2 WindowSize() const
