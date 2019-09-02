@@ -44,6 +44,7 @@ namespace draw
     settings_t            settings;
     glm::vec2             winsize;
     logLevel_t            logLevel;
+    std::string           input;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -65,7 +66,14 @@ namespace draw
 
     static void onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+    static void onCharInput(GLFWwindow* window, uint32_t key);
+
   public:
+
+    const char* Input() const
+    {
+      return this->input.c_str();
+    }
 
     template<typename ...args_t>
     void Debug(const char* format, args_t... args)
@@ -151,6 +159,8 @@ namespace draw
      * @brief Render all registered frame stages, then swap buffers
      */
     void Render() noexcept;
+
+    void Update() noexcept;
 
     /**
      * @brief Global settings file.

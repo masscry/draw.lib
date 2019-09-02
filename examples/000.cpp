@@ -163,6 +163,7 @@ int main(int /*unused*/, char** /*unused*/)
         instance.Info("Time Passed: %f\n", now - start);
         mark = now;
       }
+      instance.Update();
     }
     instance.Info("After Draw Finished: %f\n", instance.Timestamp());
     instance.RemoveFrameStage(stageID);

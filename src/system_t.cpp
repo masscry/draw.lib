@@ -10,11 +10,76 @@
  */
 #include <draw.hpp>
 
+#include <iconv.h>
+
 namespace draw
 {
+
+#ifdef __unix__
+  char wcharConvert(uint32_t smb)
+  {
+    iconv_t code;
+    char* smbHead;
+    size_t smbLeft;
+    char result[1];
+
+    char* resultHead;
+    size_t resultLeft;
+    size_t size;
+
+    code = iconv_open(JSON_ENCODING_IN_PROGRAM, "WCHAR_T");
+    if (code == ((iconv_t) -1)) {
+      return '?';
+    }
+
+    smbHead = (char*) (&smb);
+    smbLeft = 4;
+
+    resultHead = result;
+    resultLeft = 1;
+
+    size = iconv(code, &smbHead, &smbLeft, &resultHead, &resultLeft);
+    if (size == ((size_t)-1)) {
+        iconv_close(code);
+        return '?';
+    }
+
+    iconv_close(code);
+    return result[0];
+  }
+#else
+  char wcharConvert(uint32_t smb)
+  {
+    if (smb < 128)
+    {
+      return (char)(smb);
+    }
+    return '?';
+  }
+#endif 
+
+
   void system_t::onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods)
   {
+    system_t* sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
+    if (action == GLFW_PRESS)
+    {
+      switch(key)
+      {
+        case GLFW_KEY_BACKSPACE:
+          if (!sys->input.empty())
+          {
+            sys->input.pop_back();
+          }
+          break;
+      }
+    }
+  }
 
+  void system_t::onCharInput(GLFWwindow* window, uint32_t key)
+  {
+    system_t* sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
+    sys->input.push_back(wcharConvert(key));
   }
 
   system_t::system_t():window(nullptr),settings("./draw.json"),logLevel(INFO)
@@ -49,6 +114,7 @@ namespace draw
     glfwSetWindowUserPointer(this->window, this);
     glfwSwapInterval(1);
     glfwSetKeyCallback(this->window, system_t::onKeyInput);
+    glfwSetCharCallback(this->window, system_t::onCharInput);
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 
@@ -95,6 +161,11 @@ namespace draw
   bool system_t::IsRunning() const noexcept
   {
     return (glfwWindowShouldClose(this->window) == 0);
+  }
+
+  void system_t::Update() noexcept
+  {
+    glfwPollEvents();
   }
 
   void system_t::Render() noexcept
