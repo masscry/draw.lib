@@ -12,6 +12,10 @@
 
 namespace draw
 {
+  void system_t::onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+  {
+
+  }
 
   system_t::system_t():window(nullptr),settings("./draw.json"),logLevel(INFO)
   {
@@ -42,6 +46,9 @@ namespace draw
     }
 
     glfwMakeContextCurrent(this->window);
+    glfwSetWindowUserPointer(this->window, this);
+    glfwSwapInterval(1);
+    glfwSetKeyCallback(this->window, system_t::onKeyInput);
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 
@@ -179,10 +186,7 @@ namespace draw
 
   double system_t::Timestamp() const noexcept
   {
-    struct timespec ts{};
-    clock_gettime(CLOCK_MONOTONIC, &ts);
-    return static_cast<double>(ts.tv_sec)
-      + static_cast<double>(ts.tv_nsec) * 1.0e-9;
+    return glfwGetTime();
   }
 
   void system_t::Sleep(double sec) const noexcept

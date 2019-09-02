@@ -63,6 +63,8 @@ namespace draw
       }
     }
 
+    static void onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
+
   public:
 
     template<typename ...args_t>
