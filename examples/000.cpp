@@ -118,7 +118,7 @@ public:
     this->road.Mesh()->CopyToGPU();
     
     this->text.Mesh()->CopyToGPU();
-    this->text.Transform() = glm::translate(this->text.Transform(), glm::vec3(0.0f, 1.3f, 1.0f));
+    this->text.Transform() = glm::translate(this->text.Transform(), glm::vec3(-1.0f, 1.3f, 0.0f));
     this->text.Transform() = glm::rotate(this->text.Transform(), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);

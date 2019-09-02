@@ -15,6 +15,16 @@ namespace draw
 
   public:
 
+    glm::mat4& Projection()
+    {
+      return this->projection;
+    }
+
+    const glm::mat4& Projection() const
+    {
+      return this->projection;
+    }
+
     glm::mat4& ModelView()
     {
       return this->modelView;
