@@ -52,6 +52,11 @@ namespace draw
 
   public:
 
+    const std::string& ParseError() const 
+    {
+      return this->parseError;
+    }
+
     settings_t Subroot(const char* path) const;
 
     bool IsRootOwner() const

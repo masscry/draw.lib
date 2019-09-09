@@ -19,11 +19,8 @@ namespace draw
       fclose(input);
     }
     if (this->root == nullptr)
-    { // on fail, create empty root object
-      this->root = j2InitObject();
-
-      // here root can't be nullptr
-      assert(this->root != nullptr);
+    { 
+      THROW_ERROR(this->ParseError().c_str());
     }
   }
 
@@ -36,7 +33,7 @@ namespace draw
   }
 
   settings_t::settings_t(J2VAL root, const settings_t* rootOwner)
-  :root(root),rootOwner(rootOwner)
+  :root(root),rootOwner(rootOwner),parseError()
   {
     ;
   }
