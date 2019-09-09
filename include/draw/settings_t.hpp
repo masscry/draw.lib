@@ -39,6 +39,7 @@ namespace draw
   {
     J2VAL root;
     const settings_t* rootOwner;
+    std::string parseError;
 
     settings_t(const settings_t&) = delete;
     settings_t& operator = (const settings_t&) = delete;
@@ -46,6 +47,8 @@ namespace draw
     const J2VAL TraversePath(const char* path) const;
 
     settings_t(J2VAL root, const settings_t* rootOwner);
+
+    static void onSettingsError (void* context, int line, int col);
 
   public:
 
