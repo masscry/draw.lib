@@ -47,6 +47,9 @@ namespace draw
     mesh_t(mesh_t&&) = delete;
     mesh_t& operator=(mesh_t&&) = delete;
 
+    void GPUAllocate();
+    void GPUUpdate();
+
   public:
 
     mesh_t() = default;

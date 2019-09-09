@@ -5,7 +5,7 @@ namespace draw
 
 #define BUFFER_OFFSET(OFFSET) ((void*) (OFFSET))
 
-  void mesh_t::CopyToGPU()
+  void mesh_t::GPUAllocate()
   {
     system_t& instance = system_t::Instance();
 
@@ -39,6 +39,26 @@ namespace draw
     );
 
     instance.Bind(*glVertexArray_t::None());
+  }
+
+  void mesh_t::GPUUpdate()
+  {
+    system_t& instance = system_t::Instance();
+    instance.Bind(*this->vao);
+    instance.Bind(*this->vBuffer);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertex_t)*this->vertecies.size(), &this->vertecies[0]);
+  }
+  
+  void mesh_t::CopyToGPU()
+  {
+    if (!this->vao)
+    {
+      this->GPUAllocate();
+    }
+    else
+    {
+      this->GPUUpdate();
+    }
   }
 
   void mesh_t::Draw()
