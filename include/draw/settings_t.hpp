@@ -43,7 +43,7 @@ namespace draw
     settings_t(const settings_t&) = delete;
     settings_t& operator = (const settings_t&) = delete;
 
-    J2VAL TraversePath(const char* path) const;
+    const J2VAL TraversePath(const char* path) const;
 
     settings_t(J2VAL root, const settings_t* rootOwner);
 

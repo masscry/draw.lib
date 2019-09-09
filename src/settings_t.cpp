@@ -9,7 +9,7 @@ namespace draw
     FILE* input = fopen(path, "r");
     if (input != nullptr)
     {
-      this->root = j2ParseFile(input);
+      this->root = j2ParseFileStream(input);
       fclose(input);
     }
     if (this->root == nullptr)
@@ -45,43 +45,10 @@ namespace draw
     return settings_t(subroot, this);
   }
 
-  J2VAL settings_t::TraversePath(const char* path) const
+  const J2VAL settings_t::TraversePath(const char* path) const
   {
-    if (path[0] == '\0')
-    {
-      return this->root;
-    }
-
-    J2VAL objCursor = this->root;
-    const char* pathCursor = path;
-    const char* pathEnd = nullptr;
-
-    do
-    {
-      if (j2Type(objCursor) != J2_OBJECT)
-      { // inmost object reached, but path is not
-        return nullptr;
-      }
-
-      pathEnd = strchr(pathCursor, '/');
-      if (pathEnd == nullptr)
-      { // last path part do not have /, so take whole
-        pathEnd = pathCursor + strlen(pathCursor);
-      }
-
-      std::string token(pathCursor, pathEnd);
-
-      J2VAL item = j2ValueObjectItem(objCursor, token.c_str());
-      if (item == nullptr)
-      {
-        return nullptr;
-      }
-
-      objCursor = item;
-      pathCursor = pathEnd + 1;
-
-    } while(*pathEnd != '\0');
-    return objCursor;
+    std::string full_path = std::string("/") + path;
+    return joFind(this->root, full_path.c_str());
   }
 
   glm::vec4 ParseColor(const char* hexColStr)
