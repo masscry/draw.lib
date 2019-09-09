@@ -3,10 +3,10 @@
 namespace draw
 {
 
-  void settings_t::onSettingsError (void* context, int line, int col)
+  void settings_t::onSettingsError (void* context, int line)
   {
     settings_t* self = reinterpret_cast<settings_t*>(context);
-    self->parseError = std::string("config:") + std::to_string(line) + std::string(":") + std::to_string(col);
+    self->parseError = std::string("config:") + std::to_string(line);
   }
 
   settings_t::settings_t(const char* path)

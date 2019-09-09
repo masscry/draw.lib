@@ -48,7 +48,7 @@ namespace draw
 
     settings_t(J2VAL root, const settings_t* rootOwner);
 
-    static void onSettingsError (void* context, int line, int col);
+    static void onSettingsError (void* context, int line);
 
   public:
 
