@@ -191,8 +191,7 @@ namespace draw
       THROW_ERROR("Can't open OBJ file");
     }
 
-    result.Vertecies().clear();
-    result.Indecies().clear();
+    result.Clear();
 
     std::string line;
     std::string cmd;
@@ -344,11 +343,12 @@ namespace draw
             }
           }
 
+          auto vs = result.AllocateVertecies(vCursor);
           for (int index = 0; index < vCursor; ++index)
           {
-            result.Vertecies().push_back(tempVertex[index]);
-            result.Indecies().push_back(result.Vertecies().size()-1);
+            *vs++ = tempVertex[index];
           }
+          result.AllocateIndeciesRange(vCursor);
           break;
         }
         case OC_UNDEF:

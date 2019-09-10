@@ -5,8 +5,70 @@ namespace draw
 
 #define BUFFER_OFFSET(OFFSET) ((void*) (OFFSET))
 
+  mesh_t::mesh_t()
+  :expired(true)
+  {
+
+  }
+
+  vertexArray_t::iterator mesh_t::AllocateVertecies(size_t total)
+  {
+    this->expired = true;
+    size_t offset = this->vertecies.size();
+    this->vertecies.resize(this->vertecies.size() + total);
+    return this->vertecies.begin() + offset;
+  }
+
+  indexArray_t::iterator mesh_t::AllocateIndecies(size_t total)
+  {
+    this->expired = true;
+    size_t offset = this->indecies.size();
+    this->indecies.resize(this->indecies.size() + total);
+    return this->indecies.begin() + offset;
+  }
+
+  void mesh_t::AllocateIndeciesRange(size_t total)
+  {
+    this->expired = true;
+    size_t start = 0;
+
+    if (!this->indecies.empty())
+    {
+      start = this->indecies.back() + 1;
+    }
+
+    this->indecies.reserve(this->indecies.size() + total);
+    for (size_t i = 0; i < total; ++i)
+    {
+      this->indecies.emplace_back(start++);
+    }
+  }
+
+  vertexArray_t::iterator mesh_t::UpdateVertecies(size_t offset, size_t total)
+  {
+    if (this->vertecies.size() - offset > total)
+    {
+      THROW_ERROR("Not enough vertecies is available");
+    }
+    return this->vertecies.begin() + offset;
+  }
+
+  indexArray_t::iterator mesh_t::UpdateIndecies(size_t offset, size_t total)
+  {
+    if (this->indecies.size() - offset > total)
+    {
+      THROW_ERROR("Not enough vertecies is available");
+    }
+    return this->indecies.begin() + offset;
+  }
+
   void mesh_t::GPUAllocate()
   {
+    if ((this->vertecies.size() == 0) || (this->indecies.size() == 0))
+    {
+      THROW_ERROR("Mesh is not prepared");
+    }
+
     system_t& instance = system_t::Instance();
 
     this->vao = std::make_shared<glVertexArray_t>(0);
@@ -51,9 +113,10 @@ namespace draw
   
   void mesh_t::CopyToGPU()
   {
-    if (!this->vao)
+    if (this->expired)
     {
       this->GPUAllocate();
+      this->expired = false;
     }
     else
     {
@@ -74,6 +137,13 @@ namespace draw
     glDrawElements(GL_TRIANGLES, this->indecies.size(), GL_UNSIGNED_INT, nullptr);
   }
 
+  void mesh_t::Clear()
+  {
+    this->vertecies.clear();
+    this->indecies.clear();
+    this->expired = true;
+  }
+
   void MakePlane(glm::vec2 size, mesh_t& result, glm::vec4 color)
   {
     vertex_t temp;
@@ -81,34 +151,34 @@ namespace draw
     temp.col = color;
     temp.norm = glm::vec3(0.0f, 1.0f, 0.0f);
 
-    result.Vertecies().clear();
-    result.Indecies().clear();
+    result.Clear();
 
-    result.Vertecies().reserve(4);
-    result.Indecies().reserve(6);
+    auto vs = result.AllocateVertecies(4);
+    auto ins = result.AllocateIndecies(6);
 
     temp.pos = glm::vec3(-size.x, 0.0f, -size.y);
     temp.uv  = glm::vec2(0.0f, 1.0f);
-    result.Vertecies().emplace_back(temp);
+    *vs++ = temp;
 
     temp.pos = glm::vec3( size.x, 0.0f, -size.y);
     temp.uv  = glm::vec2(0.0f, 0.0f);
-    result.Vertecies().emplace_back(temp);
+    *vs++ = temp;
 
     temp.pos = glm::vec3(-size.x, 0.0f, size.y);
     temp.uv  = glm::vec2(1.0f, 1.0f);
-    result.Vertecies().emplace_back(temp);
+    *vs++ = temp;
 
     temp.pos = glm::vec3( size.x, 0.0f, size.y);
     temp.uv  = glm::vec2(1.0f, 0.0f);
-    result.Vertecies().emplace_back(temp);
+    *vs++ = temp;
 
-    result.Indecies().push_back(0);
-    result.Indecies().push_back(2);
-    result.Indecies().push_back(1);
-    result.Indecies().push_back(1);
-    result.Indecies().push_back(2);
-    result.Indecies().push_back(3);
+    *ins++ = 0;
+    *ins++ = 2;
+    *ins++ = 1;
+
+    *ins++ = 1;
+    *ins++ = 2;
+    *ins++ = 3;
   }
 
   void MakeTextString(glm::vec2 size, glm::ivec2 count, const char* text, mesh_t& result)
@@ -118,13 +188,12 @@ namespace draw
     temp.col = glm::vec4(1.0f);
     temp.norm = glm::vec3(0.0f, 0.0f, 1.0f);
 
-    result.Vertecies().clear();
-    result.Indecies().clear();
+    result.Clear();
 
     size_t textLength = strlen(text);
 
-    result.Vertecies().reserve(textLength*4);
-    result.Indecies().reserve(textLength*6);
+    auto vs = result.AllocateVertecies(textLength*4);
+    auto ins = result.AllocateIndecies(textLength*6);
 
     glm::vec2 cursor = glm::vec2(0.0f);
 
@@ -138,26 +207,27 @@ namespace draw
 
       temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
       temp.uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);
-      result.Vertecies().emplace_back(temp);
+      *vs++ = temp;
 
       temp.pos = glm::vec3(cursor.x+size.x, cursor.y, 0.0f);
       temp.uv  = glm::vec2((smbPos.x+1)*uvPart.x, (smbPos.y+1)*uvPart.y);
-      result.Vertecies().emplace_back(temp);
+      *vs++ = temp;
 
       temp.pos = glm::vec3(cursor.x, cursor.y+size.y, 0.0f);
       temp.uv  = glm::vec2(smbPos.x*uvPart.x, smbPos.y*uvPart.y);
-      result.Vertecies().emplace_back(temp);
+      *vs++ = temp;
 
       temp.pos = glm::vec3(cursor.x+size.x, cursor.y+size.y, 0.0f);
       temp.uv  = glm::vec2((smbPos.x+1)*uvPart.x, smbPos.y*uvPart.y);
-      result.Vertecies().emplace_back(temp);
+      *vs++ = temp;
 
-      result.Indecies().push_back(totalVertex+0);
-      result.Indecies().push_back(totalVertex+1);
-      result.Indecies().push_back(totalVertex+2);
-      result.Indecies().push_back(totalVertex+1);
-      result.Indecies().push_back(totalVertex+3);
-      result.Indecies().push_back(totalVertex+2);
+      *ins++ = totalVertex+0;
+      *ins++ = totalVertex+1;
+      *ins++ = totalVertex+2;
+      *ins++ = totalVertex+1;
+      *ins++ = totalVertex+3;
+      *ins++ = totalVertex+2;
+
       totalVertex += 4;
       cursor.x += size.x;
     }

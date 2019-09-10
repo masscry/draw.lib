@@ -36,6 +36,7 @@ namespace draw
   {
     vertexArray_t vertecies;
     indexArray_t  indecies;
+    bool expired;
 
     glSharedResource_t vao;
     glSharedResource_t vBuffer;
@@ -52,28 +53,19 @@ namespace draw
 
   public:
 
-    mesh_t() = default;
+    mesh_t();
     ~mesh_t() = default;
 
-    const indexArray_t& Indecies() const
-    {
-      return this->indecies;
-    }
+    void Clear();
 
-    const vertexArray_t& Vertecies() const
-    {
-      return this->vertecies;
-    }
+    vertexArray_t::iterator AllocateVertecies(size_t total);
 
-    indexArray_t& Indecies()
-    {
-      return this->indecies;
-    }
+    indexArray_t::iterator AllocateIndecies(size_t total);
+    void AllocateIndeciesRange(size_t total);
 
-    vertexArray_t& Vertecies()
-    {
-      return this->vertecies;
-    }
+    vertexArray_t::iterator UpdateVertecies(size_t offset, size_t total);
+
+    indexArray_t::iterator UpdateIndecies(size_t offset, size_t total);
 
     void CopyToGPU();
 
