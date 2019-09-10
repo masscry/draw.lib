@@ -233,6 +233,64 @@ namespace draw
     }
   }
 
+  void MakeTextScreen(glm::vec2 size, glm::ivec2 countFont, glm::ivec2 countChars, mesh_t& result)
+  {
+    vertex_t temp;
+
+    temp.col = glm::vec4(1.0f);
+    temp.norm = glm::vec3(0.0f, 0.0f, 1.0f);
+
+    result.Clear();
+
+    auto vs = result.AllocateVertecies(countChars.x*countChars.y*4);
+    auto ins = result.AllocateIndecies(countChars.x*countChars.y*6);
+
+    glm::vec2 cursor = glm::vec2(0.0f);
+
+    glm::vec2 uvPart(1.0f/countFont.x, 1.0f/countFont.y);
+
+    glm::vec2 charSize(size.x/countChars.x, size.y/countChars.y);
+
+    uint32_t totalVertex = 0;
+
+    for (size_t curY = 0; curY < countChars.y; ++curY)
+    {
+      for (size_t curX = 0; curX < countChars.x; ++curX)
+      {
+        int smb = rand()%96 + 32;
+        glm::ivec2 smbPos(smb%countFont.x, smb/countFont.y);
+
+        temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
+        temp.uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);
+        *vs++ = temp;
+  
+        temp.pos = glm::vec3(cursor.x+charSize.x, cursor.y, 0.0f);
+        temp.uv  = glm::vec2((smbPos.x+1)*uvPart.x, (smbPos.y+1)*uvPart.y);
+        *vs++ = temp;
+  
+        temp.pos = glm::vec3(cursor.x, cursor.y+charSize.y, 0.0f);
+        temp.uv  = glm::vec2(smbPos.x*uvPart.x, smbPos.y*uvPart.y);
+        *vs++ = temp;
+  
+        temp.pos = glm::vec3(cursor.x+charSize.x, cursor.y+charSize.y, 0.0f);
+        temp.uv  = glm::vec2((smbPos.x+1)*uvPart.x, smbPos.y*uvPart.y);
+        *vs++ = temp;
+  
+        *ins++ = totalVertex+0;
+        *ins++ = totalVertex+1;
+        *ins++ = totalVertex+2;
+        *ins++ = totalVertex+1;
+        *ins++ = totalVertex+3;
+        *ins++ = totalVertex+2;
+  
+        totalVertex += 4;
+        cursor.x += charSize.x;
+      }
+      cursor.x = 0.0f;
+      cursor.y += charSize.y;
+    }
+  }
+
   void actor_t::Draw(const camera_t& camView) const
   {
     camView.Use(this->transform);

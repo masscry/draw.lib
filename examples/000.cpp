@@ -54,10 +54,13 @@ void main()
 class sampleFrame:public draw::frameStage_t
 {
   draw::camera_t camera;
+  draw::camera_t orthoCam;
+
   draw::actor_t car;
   draw::actor_t car2;
   draw::actor_t road;
   draw::actor_t text;
+  draw::actor_t console;
 
   draw::glSharedResource_t shader;
   draw::glSharedResource_t planeTexture;
@@ -80,6 +83,9 @@ class sampleFrame:public draw::frameStage_t
 
     instance.Bind(*this->fontTexture);
     this->text.Draw(this->camera);
+
+    instance.Bind(*this->fontTexture);
+    this->console.Draw(this->orthoCam);
   }
 
 protected:
@@ -108,6 +114,11 @@ public:
       *this->text.Mesh()
     );
 
+    draw::MakeTextScreen(
+      glm::vec2(1.0f, 1.0f), glm::ivec2(16, 16), glm::ivec2(85, 32),
+      *this->console.Mesh()
+    );
+
     this->car.Mesh()->CopyToGPU();
     this->car.Transform() = glm::translate(this->car.Transform(), glm::vec3(1.0f, 0.0f, 0.0f));
 
@@ -121,6 +132,8 @@ public:
     this->text.Transform() = glm::translate(this->text.Transform(), glm::vec3(-1.0f, 1.3f, 0.0f));
     this->text.Transform() = glm::rotate(this->text.Transform(), glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
+    this->console.Mesh()->CopyToGPU();
+
     this->shader = std::make_shared<draw::glShader_t>(vShader, fShader);
 
     this->planeTexture = draw::LoadTGA(instance.Settings().Param<const char*>("scene/floor/texture"));
@@ -131,12 +144,19 @@ public:
       glGetUniformLocation(this->shader->Handle(), "matModelView")
     );
 
+    this->orthoCam.Bind(
+      glGetUniformLocation(this->shader->Handle(), "matProj"),
+      glGetUniformLocation(this->shader->Handle(), "matModelView")
+    );
+
     this->camera.ModelView() = glm::lookAt(
       instance.Settings().Param("scene/camera/pos",    glm::vec3(5.0f, 5.0f, 5.0f)),
       instance.Settings().Param("scene/camera/origin", glm::vec3(0.0f, 0.0f, 0.0f)),
       instance.Settings().Param("scene/camera/up",     glm::vec3(0.0f, 1.0f, 0.0f))
     );
 
+    this->orthoCam.Projection() = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f);
+    this->orthoCam.ModelView() = glm::mat4(1.0f);
   }
 
 };

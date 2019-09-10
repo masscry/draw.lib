@@ -115,7 +115,9 @@ namespace draw
 
   void MakePlane(glm::vec2 size, mesh_t& result, glm::vec4 color = glm::vec4(1.0f));
 
-  void MakeTextString(glm::vec2 size, glm::ivec2 count, const char* text, mesh_t& result);
+  void MakeTextString(glm::vec2 size, glm::ivec2 countFont, const char* text, mesh_t& result);
+
+  void MakeTextScreen(glm::vec2 size, glm::ivec2 countFont, glm::ivec2 countChars, mesh_t& result);
 
 } // namespace draw
 
