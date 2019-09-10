@@ -86,7 +86,12 @@ add_library(draw STATIC
 target_link_libraries(draw PUBLIC drawSetup glfw glad alpha0 glm_static)
 
 add_executable(ex000
+# HEADERS
+  examples/console.hpp
+
+# SOURCES
   examples/000.cpp
+  examples/console.cpp
 )
 
 target_link_libraries(ex000 PRIVATE
