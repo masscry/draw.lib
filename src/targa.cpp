@@ -60,6 +60,16 @@ const char TGA_SIGNATURE[] = "TRUEVISION-XFILE.";
 
 namespace draw {
 
+  bool tgaIsTrueColor(uint8_t imtype)
+  {
+    return (imtype & 0x3) == 0x2;
+  }
+
+  bool tgaIsRLE(uint8_t imtype)
+  {
+    return (imtype & 0x8) == 0x8;
+  }
+
   glSharedResource_t LoadTGA(const char* filename)
   {
     FILE* input = fopen(filename, "rb");
@@ -112,8 +122,9 @@ namespace draw {
       THROW_ERROR("TGA: invalid cmtype");
     }
 
-    if (head.imtype != 2) {
-      THROW_ERROR("TGA: invalid imtype");
+    if (tgaIsTrueColor(head.imtype) == false)
+    {
+      THROW_ERROR("TGA: only TrueColor images supported");
     }
 
     if (head.cms.size != 0) {
@@ -128,10 +139,49 @@ namespace draw {
 
     pixels.resize(head.is.width*head.is.height*(head.is.depth/8));
 
-    if (fread(pixels.data(), 4, head.is.width*head.is.height, input)
-      != head.is.width*head.is.height) 
+    if (tgaIsRLE(head.imtype) == false)
     {
-      THROW_ERROR("TGA: fread failed");
+      if (fread(pixels.data(), 4, head.is.width*head.is.height, input)
+        != head.is.width*head.is.height) 
+      {
+        THROW_ERROR("TGA: fread failed");
+      }
+    }
+    else
+    {
+      uint8_t* cursor = pixels.data();
+      while (cursor - pixels.data() < head.is.width*head.is.height*4)
+      {
+        int rc = fgetc(input);
+        if (rc == EOF)
+        {
+          THROW_ERROR("TGA: unexpected EOF");
+        }
+  
+        int pixCount = (rc & 0x7F) + 1;
+  
+        if ((rc & 0x80) != 0) // RLE-packet
+        {
+          uint32_t copyPixel;
+          if (fread(&copyPixel, 4, 1, input) != 1)
+          {
+            THROW_ERROR("TGA: fread failed");
+          }
+          while(pixCount-->0)
+          {
+            memcpy(cursor, &copyPixel, sizeof(uint32_t));
+            cursor += 4;
+          }
+        }
+        else // RAW-packet
+        {
+          if (fread(cursor, 4, pixCount, input) != pixCount)
+          {
+            THROW_ERROR("TGA: fread failed");
+          }
+          cursor += 4*pixCount;
+        }
+      }
     }
 
     uint8_t* bgra = pixels.data();
