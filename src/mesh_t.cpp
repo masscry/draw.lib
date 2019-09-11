@@ -255,7 +255,7 @@ namespace draw
 
     for (int i = 0; (i < 256) && (tempBuffer[i] != 0); ++i)
     {
-      PutSymbolScreen(countFont, countChars, glm::ivec2(pos.x+i, pos.y), static_cast<uint8_t>(tempBuffer[i]), result);
+      PutSymbolScreen(countFont, countChars, glm::ivec2(pos.x+i, countChars.y-pos.y-1), static_cast<uint8_t>(tempBuffer[i]), result);
     }
   }
 
