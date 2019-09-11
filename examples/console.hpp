@@ -21,6 +21,10 @@ protected:
   
 public:
 
+  draw::actor_t& Console() {
+    return this->console;
+  }
+
   consoleView_t();
 
 };

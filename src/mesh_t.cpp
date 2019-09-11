@@ -46,7 +46,7 @@ namespace draw
 
   vertexArray_t::iterator mesh_t::UpdateVertecies(size_t offset, size_t total)
   {
-    if (this->vertecies.size() - offset > total)
+    if (this->vertecies.size() - offset < total)
     {
       THROW_ERROR("Not enough vertecies is available");
     }
@@ -55,7 +55,7 @@ namespace draw
 
   indexArray_t::iterator mesh_t::UpdateIndecies(size_t offset, size_t total)
   {
-    if (this->indecies.size() - offset > total)
+    if (this->indecies.size() - offset < total)
     {
       THROW_ERROR("Not enough vertecies is available");
     }

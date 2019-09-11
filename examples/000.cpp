@@ -162,7 +162,14 @@ int main(int /*unused*/, char** /*unused*/)
       instance.Render();
       if (now - mark >= 1.0)
       {
-        instance.Info("Time Passed: %f\n", now - start);
+        consoleView_t& view = *static_cast<consoleView_t*>((*consoleID).get());
+        draw::PrintScreen(
+          glm::ivec2(16, 16),
+          glm::ivec2(85, 32),
+          glm::ivec2(0, 0),
+          *view.Console().Mesh(), "Time Passed: %f\n", now - start
+        );
+        view.Console().Mesh()->CopyToGPU();
         mark = now;
       }
       instance.Update();
