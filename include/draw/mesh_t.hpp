@@ -119,6 +119,10 @@ namespace draw
 
   void MakeTextScreen(glm::vec2 size, glm::ivec2 countFont, glm::ivec2 countChars, mesh_t& result);
 
+  void PutSymbolScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, int smb, mesh_t& result);
+
+  void PrintScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, mesh_t& result, const char* format, ...);
+
 } // namespace draw
 
 

@@ -148,8 +148,8 @@ int main(int /*unused*/, char** /*unused*/)
   {
     draw::system_t& instance = draw::system_t::Instance();
 
-    int stageID = instance.AddFrameStage(new sampleFrame());
-    int consoleID = instance.AddFrameStage(new consoleView_t());
+    auto stageID = instance.AddFrameStage(new sampleFrame());
+    auto consoleID = instance.AddFrameStage(new consoleView_t());
 
     double start = instance.Timestamp();
     double mark  = start;

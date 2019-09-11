@@ -233,6 +233,32 @@ namespace draw
     }
   }
 
+  void PutSymbolScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, int smb, mesh_t& result)
+  {
+    auto vs = result.UpdateVertecies((pos.y*countChars.x+pos.x)*4, 4);
+    const glm::vec2 uvPart(1.0f/countFont.x, 1.0f/countFont.y);
+    const glm::ivec2 smbPos(smb%countFont.x, smb/countFont.y);
+
+    vs->uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);     ++vs;
+    vs->uv  = glm::vec2((smbPos.x+1)*uvPart.x, (smbPos.y+1)*uvPart.y); ++vs;
+    vs->uv  = glm::vec2(smbPos.x*uvPart.x, smbPos.y*uvPart.y);         ++vs;
+    vs->uv  = glm::vec2((smbPos.x+1)*uvPart.x, smbPos.y*uvPart.y);     ++vs;
+  }
+
+  void PrintScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, mesh_t& result, const char* format, ...)
+  {
+    char tempBuffer[256];
+    va_list vl;
+    va_start(vl, format);
+    vsnprintf(tempBuffer, 255, format, vl);
+    va_end(vl);
+
+    for (int i = 0; (i < 256) && (tempBuffer[i] != 0); ++i)
+    {
+      PutSymbolScreen(countFont, countChars, glm::ivec2(pos.x+i, pos.y), static_cast<uint8_t>(tempBuffer[i]), result);
+    }
+  }
+
   void MakeTextScreen(glm::vec2 size, glm::ivec2 countFont, glm::ivec2 countChars, mesh_t& result)
   {
     vertex_t temp;
@@ -249,6 +275,8 @@ namespace draw
 
     glm::vec2 uvPart(1.0f/countFont.x, 1.0f/countFont.y);
 
+    const int smb = ' ';
+    const glm::ivec2 smbPos(smb%countFont.x, smb/countFont.y);
     glm::vec2 charSize(size.x/countChars.x, size.y/countChars.y);
 
     uint32_t totalVertex = 0;
@@ -257,9 +285,6 @@ namespace draw
     {
       for (size_t curX = 0; curX < countChars.x; ++curX)
       {
-        int smb = rand()%96 + 32;
-        glm::ivec2 smbPos(smb%countFont.x, smb/countFont.y);
-
         temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
         temp.uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);
         *vs++ = temp;

@@ -33,14 +33,14 @@ namespace draw
       TOTAL
     };
 
+    typedef std::list<uniqueFrameStage_t> listOfFrameStages_t;
+
   private:
 
     friend class frameStage_t;
 
-    typedef std::vector<uniqueFrameStage_t> vectorOfFrameStages_t;
-
     GLFWwindow*           window;
-    vectorOfFrameStages_t stages;
+    listOfFrameStages_t   stages;
     settings_t            settings;
     glm::vec2             winsize;
     logLevel_t            logLevel;
@@ -117,14 +117,14 @@ namespace draw
      * @param stage valid frame stage pointer
      * @return index of frame stage 
      */
-    int AddFrameStage(frameStage_t* stage);
+    listOfFrameStages_t::iterator AddFrameStage(frameStage_t* stage);
 
     /**
      * @brief Remove existing frame stage
      * 
      * @param id existing frame stage ID
      */
-    void RemoveFrameStage(int id);
+    void RemoveFrameStage(listOfFrameStages_t::iterator stageID);
 
     /**
      * @brief Get singleton instance

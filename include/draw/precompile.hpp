@@ -12,6 +12,7 @@
 
 #include <memory>
 #include <vector>
+#include <list>
 #include <fstream>
 #include <sstream>
 #include <unordered_map>

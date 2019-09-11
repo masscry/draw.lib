@@ -134,15 +134,11 @@ namespace draw
 
   system_t::~system_t()
   {
-    for (auto& stage: this->stages)
+    for (auto stage = this->stages.begin(), e = this->stages.end(); stage!=e;)
     {
-      if (stage)
-      {
-        this->Log(WARNING, "Stage [%d] removed implicitly\n", stage->RegisteredID());
-        this->RemoveFrameStage(stage->RegisteredID());
-      }
+      this->Log(WARNING, "Stage [%d] removed implicitly\n", (*stage)->RegisteredID());
+      this->stages.erase(stage++);
     }
-    this->stages.clear();
 
     if (this->window != nullptr)
     {
@@ -190,28 +186,19 @@ namespace draw
     res.Bind(res.handle);
   }
 
-  int system_t::AddFrameStage(frameStage_t* stage)
+  system_t::listOfFrameStages_t::iterator system_t::AddFrameStage(frameStage_t* stage)
   {
     assert(stage != nullptr);            // only valid pointers expected
     assert(stage->RegisteredID() == -1); // only not registered stages expected
     this->stages.emplace_back(stage);
     stage->SetRegisteredID(this->stages.size()-1);
-    return stage->RegisteredID();
+    return std::prev(this->stages.end());
   }
 
-  void system_t::RemoveFrameStage(int id)
+  void system_t::RemoveFrameStage(listOfFrameStages_t::iterator stageID)
   {
-    assert(id < this->stages.size());
-    if (this->stages[id] != nullptr)
-    {
-      this->stages[id]->SetRegisteredID(-1);
-      this->stages[id].reset();
-      this->stages[id] = nullptr;
-    }
-    while (this->stages.back() == nullptr)
-    { // remove obsolete stages in very end
-      this->stages.pop_back();
-    }
+    (*stageID)->SetRegisteredID(-1);
+    this->stages.erase(stageID);
   }
 
   const settings_t& system_t::Settings() const noexcept
