@@ -1,5 +1,6 @@
 #include <draw.hpp>
 
+
 namespace draw
 {
 
@@ -281,9 +282,9 @@ namespace draw
 
     uint32_t totalVertex = 0;
 
-    for (size_t curY = 0; curY < countChars.y; ++curY)
+    for (int curY = 0; curY < countChars.y; ++curY)
     {
-      for (size_t curX = 0; curX < countChars.x; ++curX)
+      for (int curX = 0; curX < countChars.x; ++curX)
       {
         temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
         temp.uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);

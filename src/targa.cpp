@@ -158,7 +158,7 @@ namespace draw {
           THROW_ERROR("TGA: unexpected EOF");
         }
   
-        int pixCount = (rc & 0x7F) + 1;
+        size_t pixCount = (rc & 0x7F) + 1;
   
         if ((rc & 0x80) != 0) // RLE-packet
         {

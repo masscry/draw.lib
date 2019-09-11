@@ -9,6 +9,7 @@
 #include <cerrno>
 #include <cmath>
 #include <ctime>
+#include <cstdarg>
 
 #include <memory>
 #include <vector>

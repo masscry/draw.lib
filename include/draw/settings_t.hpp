@@ -18,7 +18,7 @@ namespace draw
   template<typename T>
   constexpr int jsonExpectedType()
   {
-    static_assert(jsonCXXTypeTraits<T>::JSON_TYPE != J2_UNDEF, "There is no known conversion to this type!");
+    static_assert( static_cast<int>(jsonCXXTypeTraits<T>::JSON_TYPE) !=  static_cast<int>(J2_UNDEF), "There is no known conversion to this type!");
     return jsonCXXTypeTraits<T>::JSON_TYPE;
   }
 
