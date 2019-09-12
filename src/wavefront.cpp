@@ -121,7 +121,7 @@ namespace draw
     return 3;
   }
 
-  typedef std::unordered_map<std::string, glm::vec4> objMatLib;
+  using objMatLib = std::unordered_map<std::string, glm::vec4>;
 
   objMatLib LoadMaterialLibrary(const char* filename)
   {
@@ -155,13 +155,13 @@ namespace draw
 
       tokenizer >> cmd;
 
-      if (cmd.compare("newmtl") == 0)
+      if (cmd == "newmtl")
       {
         tokenizer >> tempMatName;
         continue;
       }
 
-      if (cmd.compare("Kd") == 0)
+      if (cmd == "Kd")
       {
         tokenizer >> tempMatColor.r >> tempMatColor.g >> tempMatColor.b;
         tempMatColor.a = 1.0f;

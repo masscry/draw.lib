@@ -5,12 +5,12 @@ namespace draw
 
   void settings_t::onSettingsError (void* context, int line)
   {
-    settings_t* self = reinterpret_cast<settings_t*>(context);
+    auto self = reinterpret_cast<settings_t*>(context);
     self->parseError = std::string("config:") + std::to_string(line);
   }
 
   settings_t::settings_t(const char* path)
-  :root(nullptr),rootOwner(nullptr),parseError()
+  :root(nullptr),rootOwner(nullptr)
   {
     FILE* input = fopen(path, "r");
     if (input != nullptr)
@@ -33,7 +33,7 @@ namespace draw
   }
 
   settings_t::settings_t(J2VAL root, const settings_t* rootOwner)
-  :root(root),rootOwner(rootOwner),parseError()
+  :root(root),rootOwner(rootOwner)
   {
     ;
   }

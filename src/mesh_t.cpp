@@ -65,7 +65,7 @@ namespace draw
 
   void mesh_t::GPUAllocate()
   {
-    if ((this->vertecies.size() == 0) || (this->indecies.size() == 0))
+    if (this->vertecies.empty() || this->indecies.empty())
     {
       THROW_ERROR("Mesh is not prepared");
     }
@@ -182,7 +182,7 @@ namespace draw
     *ins++ = 3;
   }
 
-  void MakeTextString(glm::vec2 size, glm::ivec2 count, const char* text, mesh_t& result)
+  void MakeTextString(glm::vec2 size, glm::ivec2 countFont, const char* text, mesh_t& result)
   {
     vertex_t temp;
 
@@ -198,13 +198,13 @@ namespace draw
 
     glm::vec2 cursor = glm::vec2(0.0f);
 
-    glm::vec2 uvPart(1.0f/count.x, 1.0f/count.y);
+    glm::vec2 uvPart(1.0f/countFont.x, 1.0f/countFont.y);
 
     uint32_t totalVertex = 0;
     for (size_t index = 0; index < textLength; ++index)
     {
       int smb = static_cast<uint8_t>(text[index]);
-      glm::ivec2 smbPos(smb%count.x, smb/count.y);
+      glm::ivec2 smbPos(smb%countFont.x, smb/countFont.y);
 
       temp.pos = glm::vec3(cursor.x, cursor.y, 0.0f);
       temp.uv  = glm::vec2(smbPos.x*uvPart.x, (smbPos.y+1)*uvPart.y);
@@ -244,20 +244,6 @@ namespace draw
     vs->uv  = glm::vec2((smbPos.x+1)*uvPart.x, (smbPos.y+1)*uvPart.y); ++vs;
     vs->uv  = glm::vec2(smbPos.x*uvPart.x, smbPos.y*uvPart.y);         ++vs;
     vs->uv  = glm::vec2((smbPos.x+1)*uvPart.x, smbPos.y*uvPart.y);     ++vs;
-  }
-
-  void PrintScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, mesh_t& result, const char* format, ...)
-  {
-    char tempBuffer[256];
-    va_list vl;
-    va_start(vl, format);
-    vsnprintf(tempBuffer, 255, format, vl);
-    va_end(vl);
-
-    for (int i = 0; (i < 256) && (tempBuffer[i] != 0); ++i)
-    {
-      PutSymbolScreen(countFont, countChars, glm::ivec2(pos.x+i, countChars.y-pos.y-1), static_cast<uint8_t>(tempBuffer[i]), result);
-    }
   }
 
   void MakeTextScreen(glm::vec2 size, glm::ivec2 countFont, glm::ivec2 countChars, mesh_t& result)
@@ -324,13 +310,13 @@ namespace draw
   }
 
   actor_t::actor_t()
-  :transform(1.0),mesh()
+  :transform(1.0),mesh(std::make_shared<mesh_t>())
   {
-    this->mesh = std::make_shared<mesh_t>();
+    ;
   }
 
   actor_t::actor_t(glm::mat4 transform, sharedMesh_t mesh)
-  :transform(transform),mesh(mesh)
+  :transform(transform),mesh(std::move(mesh))
   {
     ;
   }

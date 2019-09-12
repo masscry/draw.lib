@@ -86,7 +86,7 @@ class sampleFrame:public draw::frameStage_t
 
 protected:
 
-  ~sampleFrame() = default;
+  ~sampleFrame() override = default;
   
 public:
 

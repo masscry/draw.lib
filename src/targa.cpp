@@ -54,11 +54,12 @@ namespace
 
 #pragma pack(pop)
 
-}
+} // namespace
 
 const char TGA_SIGNATURE[] = "TRUEVISION-XFILE.";
 
-namespace draw {
+namespace draw 
+{
 
   bool tgaIsTrueColor(uint8_t imtype)
   {
@@ -122,7 +123,7 @@ namespace draw {
       THROW_ERROR("TGA: invalid cmtype");
     }
 
-    if (tgaIsTrueColor(head.imtype) == false)
+    if (!tgaIsTrueColor(head.imtype))
     {
       THROW_ERROR("TGA: only TrueColor images supported");
     }
@@ -139,7 +140,7 @@ namespace draw {
 
     pixels.resize(head.is.width*head.is.height*(head.is.depth/8));
 
-    if (tgaIsRLE(head.imtype) == false)
+    if (!tgaIsRLE(head.imtype))
     {
       if (fread(pixels.data(), 4, head.is.width*head.is.height, input)
         != head.is.width*head.is.height) 
@@ -210,4 +211,4 @@ namespace draw {
     return std::make_shared<glTexture_t>(glm::ivec2{head.is.width, head.is.height}, pixels.data());
   }
 
-}
+} // namespace draw

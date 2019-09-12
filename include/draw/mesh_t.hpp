@@ -121,7 +121,17 @@ namespace draw
 
   void PutSymbolScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, int smb, mesh_t& result);
 
-  void PrintScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, mesh_t& result, const char* format, ...);
+  template<typename ...formatArgs_t>
+  void PrintScreen(glm::ivec2 countFont, glm::ivec2 countChars, glm::ivec2 pos, mesh_t& result, const char* format, formatArgs_t... args)
+  {
+    char tempBuffer[256];
+    snprintf(tempBuffer, 256, format, args...);
+
+    for (int i = 0; (i < 256) && (tempBuffer[i] != 0); ++i)
+    {
+      PutSymbolScreen(countFont, countChars, glm::ivec2(pos.x+i, countChars.y-pos.y-1), static_cast<uint8_t>(tempBuffer[i]), result);
+    }
+  }
 
 } // namespace draw
 

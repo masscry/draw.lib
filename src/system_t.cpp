@@ -28,18 +28,18 @@ namespace draw
     size_t size;
 
     code = iconv_open(JSON_ENCODING_IN_PROGRAM, "WCHAR_T");
-    if (code == ((iconv_t) -1)) {
+    if (code == (reinterpret_cast<iconv_t>(-1))) {
       return '?';
     }
 
-    smbHead = (char*) (&smb);
+    smbHead = reinterpret_cast<char*>(&smb);
     smbLeft = 4;
 
     resultHead = result;
     resultLeft = 1;
 
     size = iconv(code, &smbHead, &smbLeft, &resultHead, &resultLeft);
-    if (size == ((size_t)-1)) {
+    if (size == (static_cast<size_t>(-1))) {
         iconv_close(code);
         return '?';
     }
@@ -59,9 +59,9 @@ namespace draw
 #endif 
 
 
-  void system_t::onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+  void system_t::onKeyInput(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/)
   {
-    system_t* sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
+    auto sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
     if (action == GLFW_PRESS)
     {
       switch(key)
@@ -78,7 +78,7 @@ namespace draw
 
   void system_t::onCharInput(GLFWwindow* window, uint32_t key)
   {
-    system_t* sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
+    auto sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
     sys->input.push_back(wcharConvert(key));
   }
 
