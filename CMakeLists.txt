@@ -98,3 +98,5 @@ target_link_libraries(ex000 PRIVATE
   draw
   $<$<PLATFORM_ID:Linux>:-rdynamic> # this flag needed backtrace, if need verbose stack trace
 )
+
+add_subdirectory(evoid)

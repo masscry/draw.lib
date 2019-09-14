@@ -26,6 +26,27 @@
       "miDebuggerPath": "/usr/bin/gdb"
     },
     {
+      "name": "Run EVoid (Debug)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/evoid/evoid",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/evoid/runtime",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode":"gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build all (debug)",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
       "name": "Validate JSON",
       "type": "cppdbg",
       "request": "launch",
@@ -66,6 +87,6 @@
       ],
       "preLaunchTask": "build all (release)",
       "miDebuggerPath": "/usr/bin/gdb"
-    }
+    },
   ]
 }
