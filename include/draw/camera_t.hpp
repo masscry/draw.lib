@@ -8,10 +8,11 @@ namespace draw
   class camera_t final
   {
     glm::mat4 projection;
-    glm::mat4 modelView;
+    glm::mat4 view;
 
     GLuint projUniform;
-    GLuint mvUniform;
+    GLuint viewUniform;
+    GLuint modelUniform;
 
   public:
 
@@ -25,17 +26,17 @@ namespace draw
       return this->projection;
     }
 
-    glm::mat4& ModelView()
+    glm::mat4& View()
     {
-      return this->modelView;
+      return this->view;
     }
 
-    const glm::mat4& ModelView() const
+    const glm::mat4& View() const
     {
-      return this->modelView;
+      return this->view;
     }
 
-    void Bind(GLuint projUniform, GLuint mvUniform);
+    void Bind(GLuint projUniform, GLuint viewUniform, GLuint modelUniform);
 
     void Use() const;
 

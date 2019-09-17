@@ -10,18 +10,21 @@ layout(location = 2) in vec4 col;
 layout(location = 3) in vec2 uv;
 
 uniform mat4 matProj;
-uniform mat4 matModelView;
+uniform mat4 matView;
+uniform mat4 matModel;
 
-out vec4 vCol;
-out vec2 vUV;
-out vec4 vNormal;
+out vec3 fragPos;
+out vec3 fragNormal;
+out vec4 fragColor;
+out vec2 fragUV;
 
 void main()
 {
-  gl_Position = matProj * matModelView * vec4(pos, 1.0f);
-  vCol = col;
-  vUV = uv;
-  vNormal = normalize(matModelView * vec4(norm, 1.0f));
+  fragPos     = pos;
+  fragNormal  = norm;
+  fragColor   = col;
+  fragUV      = uv;
+  gl_Position = matProj * matView * matModel * vec4(pos, 1.0f);
 }
 
 )shader";
@@ -29,25 +32,33 @@ void main()
 const char* fShader = R"shader(
 #version 330 core
 
-layout(location = 0) out vec4 fCol;
+layout(location = 0) out vec4 pixColor;
 
-in vec4 vCol;
-in vec2 vUV;
-in vec4 vNormal;
+in vec3 fragNormal;
+in vec4 fragColor;
+in vec2 fragUV;
+in vec3 fragPos;
 
-float zNear = 1.0f;
-float zFar  = 15.0f;
+uniform mat4 matModel;
 
 uniform sampler2D mainTex;
 
-const vec3 lightDir = normalize(vec3(-1.0f, -1.0f, -1.0f));
+const vec3 lightPos = vec3(0.0f, 0.5f, 0.0f);
 
 void main()
 {
-  vec4 texColor = texture(mainTex, vUV);
-  float light = max(dot(vNormal.xyz, lightDir), 0.0f);
+  mat3 matNormal = transpose(inverse(mat3(matModel)));
+  vec3 normal = normalize(matNormal * fragNormal);
+  
+  vec3 fragPosition = vec3(matModel * vec4(fragPos, 1.0f));
 
-  fCol = vec4(texColor.rgb*vCol.rgb*light, texColor.a*vCol.a);
+  vec3 surfaceToLight = lightPos - fragPosition;
+  
+  float brightness = dot(normal, surfaceToLight) / (length(surfaceToLight) * length(normal));
+  brightness = clamp(brightness, 0.0f, 1.0f);
+    
+  vec4 surfaceColor = texture(mainTex, fragUV);
+  pixColor = vec4(brightness * surfaceColor.rgb * fragColor.rgb, surfaceColor.a * fragColor.a);
 }
 
 )shader";
@@ -90,6 +101,11 @@ protected:
   
 public:
 
+  draw::camera_t& Camera()
+  {
+    return this->camera;
+  }
+
   sampleFrame()
   {
     draw::system_t& instance = draw::system_t::Instance();
@@ -130,10 +146,11 @@ public:
 
     this->camera.Bind(
       glGetUniformLocation(this->shader->Handle(), "matProj"),
-      glGetUniformLocation(this->shader->Handle(), "matModelView")
+      glGetUniformLocation(this->shader->Handle(), "matView"),
+      glGetUniformLocation(this->shader->Handle(), "matModel")
     );
 
-    this->camera.ModelView() = glm::lookAt(
+    this->camera.View() = glm::lookAt(
       instance.Settings().Param("scene/camera/pos",    glm::vec3(5.0f, 5.0f, 5.0f)),
       instance.Settings().Param("scene/camera/origin", glm::vec3(0.0f, 0.0f, 0.0f)),
       instance.Settings().Param("scene/camera/up",     glm::vec3(0.0f, 1.0f, 0.0f))
@@ -169,6 +186,11 @@ int main(int /*unused*/, char** /*unused*/)
         *view.Console().Mesh(), "FPS: %3.1f\n", 1.0f/(now - mark)
       );
       view.Console().Mesh()->CopyToGPU();
+
+      auto stage = static_cast<sampleFrame*>(stageID->get());
+
+      stage->Camera().View() = glm::rotate(stage->Camera().View(), 0.01f, glm::vec3(0.0f, 1.0f, 0.0f));
+
       instance.Update();
       mark = now;
     }
