@@ -43,7 +43,8 @@ uniform mat4 matModel;
 
 uniform sampler2D mainTex;
 
-const vec3 lightPos = vec3(0.0f, 0.5f, 0.0f);
+const vec3 lightPos = vec3(3.0f, 3.0f, 3.0f);
+const vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
 
 void main()
 {
@@ -51,10 +52,8 @@ void main()
   vec3 normal = normalize(matNormal * fragNormal);
   
   vec3 fragPosition = vec3(matModel * vec4(fragPos, 1.0f));
-
-  vec3 surfaceToLight = lightPos - fragPosition;
   
-  float brightness = dot(normal, surfaceToLight) / (length(surfaceToLight) * length(normal));
+  float brightness = dot(normal, lightDir);
   brightness = clamp(brightness, 0.0f, 1.0f);
     
   vec4 surfaceColor = texture(mainTex, fragUV);
