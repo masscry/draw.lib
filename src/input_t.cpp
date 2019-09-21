@@ -15,8 +15,9 @@ namespace draw
       auto& instance = draw::system_t::Instance();
       for (int i = KEY_FIRST; i < KEY_TOTAL; ++i)
       {
-        int key = instance.Settings().Param(keyMapNames[i], KEY_UNDEF);
-        if (key != KEY_UNDEF)
+        // TODO: replace with int conversion on other level
+        double key = instance.Settings().Param(keyMapNames[i], -1.0);
+        if (key >= 0.0)
         {
           keyMap[key] = static_cast<keyInputCodes_t>(i);
         }
