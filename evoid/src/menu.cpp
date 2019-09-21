@@ -40,7 +40,7 @@ in vec3 fragPos;
 
 uniform sampler2D mainTex;
 
-const vec3 lightDir = normalize(vec3(0.0f, -0.5f, 1.0f));
+const vec3 lightDir = normalize(vec3(1.0f, 1.0f, 1.0f));
 const vec3 matrixGreen       = vec3(0.0f, 0.56f, 0.07f);
 const vec3 matrixGreenEnable = vec3(0.0f, 1.0f,  0.26f);
 
