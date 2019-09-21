@@ -3,5 +3,12 @@
     "width": 1280,
     "height": 720,
     "title": "Endless Void"
+  },
+  "menu": {
+    "font": "share/nfont-rle.tga",
+    "model": "share/spaceship.obj"
+  },
+  "scene": {
+    "clcolor": "#111111FF"
   }
 }

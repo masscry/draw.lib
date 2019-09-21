@@ -1,4 +1,5 @@
 #include <draw.hpp>
+#include <menu.hpp>
 #include <iostream>
 
 int main(int /*argc*/, char* /*argv*/[])
@@ -7,11 +8,13 @@ int main(int /*argc*/, char* /*argv*/[])
   {
     auto& instance = draw::system_t::Instance();
 
+    auto menu = instance.AddFrameStage(new mainMenuPage_t());
     while(instance.IsRunning())
     {
       instance.Render();
       instance.Update();
     }
+    instance.RemoveFrameStage(menu);
   }
   catch(const draw::error_t& err)
   {

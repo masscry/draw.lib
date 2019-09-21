@@ -81,6 +81,11 @@ namespace draw
     sharedMesh_t mesh;
   public:
 
+    void SetMesh(sharedMesh_t mesh)
+    {
+      this->mesh = mesh;
+    }
+
     sharedMesh_t& Mesh()
     {
       return this->mesh;

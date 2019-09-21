@@ -9,14 +9,18 @@ layout(location = 2) in vec4 col;
 layout(location = 3) in vec2 uv;
 
 uniform mat4 matProj;
-uniform mat4 matModelView;
+uniform mat4 matView;
+uniform mat4 matModel;
 
-out vec2 vUV;
+out vec3 fragPos;
+out vec3 fragNormal;
+out vec4 fragColor;
+out vec2 fragUV;
 
 void main()
 {
-  gl_Position = matProj * matModelView * vec4(pos, 1.0f);
-  vUV = uv;
+  gl_Position = matProj * matView * matModel * vec4(pos, 1.0f);
+  fragUV = uv;
 }
 
 )shader";
@@ -26,13 +30,13 @@ const char* fConsoleShader = R"shader(
 
 layout(location = 0) out vec4 fCol;
 
-in vec2 vUV;
+in vec2 fragUV;
 
 uniform sampler2D mainTex;
 
 void main()
 {
-  fCol = texture(mainTex, vUV);
+  fCol = texture(mainTex, fragUV);
 }
 
 )shader";
@@ -58,8 +62,9 @@ consoleView_t::consoleView_t()
   this->fontTexture = draw::LoadTGA(instance.Settings().Param<const char*>("font"));;
   this->orthoCam.Bind(
     glGetUniformLocation(this->shader->Handle(), "matProj"),
-    glGetUniformLocation(this->shader->Handle(), "matModelView")
+    glGetUniformLocation(this->shader->Handle(), "matView"),
+    glGetUniformLocation(this->shader->Handle(), "matModel")
   );
   this->orthoCam.Projection() = glm::ortho(0.0f, 1.0f, 0.0f, 1.0f);
-  this->orthoCam.ModelView() = glm::mat4(1.0f);
+  this->orthoCam.View() = glm::mat4(1.0f);
 }
