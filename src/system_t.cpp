@@ -62,24 +62,25 @@ namespace draw
   void system_t::onKeyInput(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/)
   {
     auto sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
-    if (action == GLFW_PRESS)
-    {
-      switch(key)
-      {
-        case GLFW_KEY_BACKSPACE:
-          if (!sys->input.empty())
-          {
-            sys->input.pop_back();
-          }
-          break;
-      }
-    }
-  }
 
-  void system_t::onCharInput(GLFWwindow* window, uint32_t key)
-  {
-    auto sys = reinterpret_cast<system_t*>(glfwGetWindowUserPointer(window));
-    sys->input.push_back(wcharConvert(key));
+    switch (action)
+    {
+    case GLFW_RELEASE:
+      for(auto& inputs: sys->inputListeners)
+      {
+        inputs->SendKeyReleased(key);
+      }
+      break;
+    case GLFW_PRESS:
+    case GLFW_REPEAT:
+      for(auto& inputs: sys->inputListeners)
+      {
+        inputs->SendKeyPress(key);
+      }
+      break;
+    }
+
+
   }
 
   system_t::system_t():window(nullptr),settings("./draw.json"),logLevel(INFO)
@@ -114,7 +115,6 @@ namespace draw
     glfwSetWindowUserPointer(this->window, this);
     glfwSwapInterval(1);
     glfwSetKeyCallback(this->window, system_t::onKeyInput);
-    glfwSetCharCallback(this->window, system_t::onCharInput);
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 
@@ -199,6 +199,21 @@ namespace draw
   {
     (*stageID)->SetRegisteredID(-1);
     this->stages.erase(stageID);
+  }
+
+  system_t::listOfInputListeners_t::iterator system_t::AddInputListener(inputListener_t* listener)
+  {
+    assert(listener != nullptr);
+    assert(listener->RegisteredID() == -1);
+    this->inputListeners.emplace_back(listener);
+    listener->SetRegisteredID(this->inputListeners.size()-1);
+    return std::prev(this->inputListeners.end());
+  }
+
+  void system_t::RemoveInputListener(system_t::listOfInputListeners_t::iterator listenerID)
+  {
+    (*listenerID)->SetRegisteredID(-1);
+    this->inputListeners.erase(listenerID);
   }
 
   const settings_t& system_t::Settings() const noexcept

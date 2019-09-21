@@ -10,5 +10,11 @@
   },
   "scene": {
     "clcolor": "#111111FF"
+  },
+  "keyboard": {
+    "right": 262,
+    "left": 263,
+    "down": 264,
+    "up": 265
   }
 }

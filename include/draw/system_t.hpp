@@ -19,8 +19,10 @@ namespace draw
 
   class glResource_t;
 
+  class inputListener_t;
+
   typedef std::shared_ptr<glResource_t> glSharedResource_t;
-  
+
   class system_t final {
   public:
 
@@ -34,17 +36,19 @@ namespace draw
     };
 
     typedef std::list<uniqueFrameStage_t> listOfFrameStages_t;
+    typedef std::list<uniqueInputListener_t> listOfInputListeners_t;
 
   private:
 
     friend class frameStage_t;
+    friend class inputListener_t;
 
-    GLFWwindow*           window;
-    listOfFrameStages_t   stages;
-    settings_t            settings;
-    glm::vec2             winsize;
-    logLevel_t            logLevel;
-    std::string           input;
+    GLFWwindow*            window;
+    listOfFrameStages_t    stages;
+    settings_t             settings;
+    glm::vec2              winsize;
+    logLevel_t             logLevel;
+    listOfInputListeners_t inputListeners;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -66,14 +70,7 @@ namespace draw
 
     static void onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-    static void onCharInput(GLFWwindow* window, uint32_t key);
-
   public:
-
-    const char* Input() const
-    {
-      return this->input.c_str();
-    }
 
     template<typename ...args_t>
     void Debug(const char* format, args_t... args)
@@ -125,6 +122,10 @@ namespace draw
      * @param id existing frame stage ID
      */
     void RemoveFrameStage(listOfFrameStages_t::iterator stageID);
+
+    listOfInputListeners_t::iterator AddInputListener(inputListener_t* listener);
+
+    void RemoveInputListener(listOfInputListeners_t::iterator);
 
     /**
      * @brief Get singleton instance

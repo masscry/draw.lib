@@ -79,6 +79,21 @@ namespace draw
       return j2ValueNumber(value);
     }
   };
+
+  template<>
+  struct jsonCXXTypeTraits<keyInputCodes_t>
+  {
+    enum
+    {
+      JSON_TYPE = J2_NUMBER
+    };
+
+    static inline keyInputCodes_t unbox(J2VAL value)
+    {
+      return static_cast<keyInputCodes_t>(j2ValueNumber(value));
+    }
+
+  };
   
 } // namespace draw
 
