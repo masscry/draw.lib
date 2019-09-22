@@ -7,7 +7,8 @@ namespace draw
       "keyboard/right", // KEY_RIGHT
       "keyboard/left",  // KEY_LEFT
       "keyboard/down",  // KEY_DOWN
-      "keyboard/up"     // KEY_UP
+      "keyboard/up",    // KEY_UP
+      "keyboard/select" // KEY_SELECT
     };
 
     systemKeyMap_t::systemKeyMap_t()
@@ -61,6 +62,10 @@ namespace draw
       {
         instance.Info("Key Pressed: %s\n", keyMapNames[kic]);
         this->OnKeyPressed(kic);
+      }
+      else
+      {
+        instance.Info("Unknown Key: %d\n", id);
       }
     }
 

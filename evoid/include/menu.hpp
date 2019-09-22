@@ -4,6 +4,16 @@
 
 #include <draw.hpp>
 
+enum menuLines_t 
+{
+  ML_FIRST = 0,
+  ML_NEW_GAME = ML_FIRST,
+  ML_LOAD_GAME,
+  ML_ABOUT,
+  ML_EXIT,
+  ML_TOTAL
+};
+
 class mainMenuPage_t: public draw::frameStage_t 
 {
   draw::glSharedResource_t menuFont;
@@ -26,6 +36,8 @@ public:
 
   void Next();
   void Prev();
+
+    int Selected() const;
 
   mainMenuPage_t();
 

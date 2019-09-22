@@ -2,7 +2,12 @@
 #include <menu.hpp>
 #include <iostream>
 
-class evoidController_t final: public draw::inputListener_t
+enum evoidEvents_t
+{
+  EE_EXIT = 0
+};
+
+class evoidInputController_t final: public draw::inputListener_t
 {
   draw::system_t::listOfFrameStages_t::iterator menuScreen;
 
@@ -18,6 +23,12 @@ class evoidController_t final: public draw::inputListener_t
     case draw::KEY_DOWN:
       mmp->Next();
       break;
+    case draw::KEY_SELECT:
+      if (mmp->Selected() == ML_EXIT)
+      {
+        draw::system_t::Instance().Event(EE_EXIT);
+      }
+      break;
     default:
       /* Ignore other keys */
       break;
@@ -26,11 +37,29 @@ class evoidController_t final: public draw::inputListener_t
 
 public:
 
-  evoidController_t(draw::system_t::listOfFrameStages_t::iterator menuScreen)
+  evoidInputController_t(draw::system_t::listOfFrameStages_t::iterator menuScreen)
   :menuScreen(menuScreen)
   {
     ;
   }
+
+};
+
+class evoidEventController_t: public draw::eventListener_t
+{
+
+  void OnUserEvent(int eventID) override
+  {
+    if (eventID == EE_EXIT)
+    {
+      draw::system_t::Instance().StopSystem();
+    }
+  }
+
+public:
+
+  evoidEventController_t() = default;
+  ~evoidEventController_t() = default;
 
 };
 
@@ -41,13 +70,15 @@ int main(int /*argc*/, char* /*argv*/[])
     auto& instance = draw::system_t::Instance();
 
     auto menu = instance.AddFrameStage(new mainMenuPage_t());
-    auto control = instance.AddInputListener(new evoidController_t(menu));
+    auto event = instance.AddEventListener(new evoidEventController_t());
+    auto input = instance.AddInputListener(new evoidInputController_t(menu));
     while(instance.IsRunning())
     {
       instance.Render();
       instance.Update();
     }
-    instance.RemoveInputListener(control);
+    instance.RemoveInputListener(input);
+    instance.RemoveEventListener(event);
     instance.RemoveFrameStage(menu);
   }
   catch(const draw::error_t& err)

@@ -12,6 +12,7 @@ namespace draw
     KEY_LEFT,
     KEY_DOWN,
     KEY_UP,
+    KEY_SELECT,
     KEY_TOTAL
   };
 

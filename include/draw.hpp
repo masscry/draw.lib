@@ -18,6 +18,7 @@
 #include <draw/error_t.hpp>
 #include <draw/frameStage_t.hpp>
 #include <draw/input_t.hpp>
+#include <draw/event_t.hpp>
 #include <draw/jsonHelpers.hpp>
 #include <draw/settings_t.hpp>
 #include <draw/system_t.hpp>

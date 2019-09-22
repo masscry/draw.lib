@@ -21,6 +21,8 @@ namespace draw
 
   class inputListener_t;
 
+  class eventListener_t;
+
   typedef std::shared_ptr<glResource_t> glSharedResource_t;
 
   class system_t final {
@@ -37,11 +39,13 @@ namespace draw
 
     typedef std::list<uniqueFrameStage_t> listOfFrameStages_t;
     typedef std::list<uniqueInputListener_t> listOfInputListeners_t;
+    typedef std::list<uniqueEventListener_t> lisfOfEventListeners_t;
 
   private:
 
     friend class frameStage_t;
     friend class inputListener_t;
+    friend class eventListener_t;
 
     GLFWwindow*            window;
     listOfFrameStages_t    stages;
@@ -49,6 +53,8 @@ namespace draw
     glm::vec2              winsize;
     logLevel_t             logLevel;
     listOfInputListeners_t inputListeners;
+    lisfOfEventListeners_t eventListeners;
+    bool                   userStopRequest;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -127,6 +133,10 @@ namespace draw
 
     void RemoveInputListener(listOfInputListeners_t::iterator);
 
+    lisfOfEventListeners_t::iterator AddEventListener(eventListener_t* listener);
+
+    void RemoveEventListener(lisfOfEventListeners_t::iterator);
+
     /**
      * @brief Get singleton instance
      * 
@@ -156,12 +166,16 @@ namespace draw
      */
     bool IsRunning() const noexcept;
 
+    void StopSystem();
+
     /**
      * @brief Render all registered frame stages, then swap buffers
      */
     void Render() noexcept;
 
     void Update() noexcept;
+
+    void Event(int event);
 
     /**
      * @brief Global settings file.

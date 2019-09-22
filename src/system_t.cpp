@@ -83,7 +83,8 @@ namespace draw
 
   }
 
-  system_t::system_t():window(nullptr),settings("./draw.json"),logLevel(INFO)
+  system_t::system_t()
+  :window(nullptr),settings("./draw.json"),logLevel(INFO),userStopRequest(false)
   {
     if (glfwInit() == GLFW_FALSE)
     {
@@ -156,7 +157,13 @@ namespace draw
 
   bool system_t::IsRunning() const noexcept
   {
-    return (glfwWindowShouldClose(this->window) == 0);
+    return (glfwWindowShouldClose(this->window) == 0)
+      && (this->userStopRequest == false);
+  }
+
+  void system_t::StopSystem()
+  {
+    this->userStopRequest = true;
   }
 
   void system_t::Update() noexcept
@@ -214,6 +221,29 @@ namespace draw
   {
     (*listenerID)->SetRegisteredID(-1);
     this->inputListeners.erase(listenerID);
+  }
+
+  system_t::lisfOfEventListeners_t::iterator system_t::AddEventListener(eventListener_t* listener)
+  {
+    assert(listener != nullptr);
+    assert(listener->RegisteredID() == -1);
+    this->eventListeners.emplace_back(listener);
+    listener->SetRegisteredID(this->eventListeners.size()-1);
+    return std::prev(this->eventListeners.end());
+  }
+
+  void system_t::RemoveEventListener(lisfOfEventListeners_t::iterator eventID)
+  {
+    (*eventID)->SetRegisteredID(-1);
+    this->eventListeners.erase(eventID);
+  }
+
+  void system_t::Event(int event)
+  {
+    for (auto& i: this->eventListeners)
+    {
+      i->SendEvent(event);
+    }
   }
 
   const settings_t& system_t::Settings() const noexcept

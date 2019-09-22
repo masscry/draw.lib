@@ -65,16 +65,6 @@ void main()
 
 )shader";
 
-enum menuLines_t 
-{
-  ML_FIRST = 0,
-  ML_NEW_GAME = ML_FIRST,
-  ML_LOAD_GAME,
-  ML_ABOUT,
-  ML_EXIT,
-  ML_TOTAL
-};
-
 const char* menuText[ML_TOTAL] = {
   "New Game",
   "Load Game",
@@ -98,6 +88,11 @@ void mainMenuPage_t::Prev()
     this->menuSelected = this->menuLines.end();
   }
   this->menuSelected = std::prev(this->menuSelected);
+}
+
+int mainMenuPage_t::Selected() const
+{
+  return std::distance<decltype(this->menuLines.begin())>(this->menuLines.begin(), this->menuSelected);
 }
 
 void mainMenuPage_t::OnRender()

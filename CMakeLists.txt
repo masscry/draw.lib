@@ -69,6 +69,7 @@ add_library(draw STATIC
   src/wavefront.cpp
   src/targa.cpp
   src/input_t.cpp
+  src/event_t.cpp
 
   # HEADERS
   ${CMAKE_CURRENT_BINARY_DIR}/include/draw/config.h
@@ -83,6 +84,7 @@ add_library(draw STATIC
   include/draw/camera_t.hpp
   include/draw/mesh_t.hpp
   include/draw/input_t.hpp
+  include/draw/event_t.hpp
 )
 
 target_link_libraries(draw PUBLIC drawSetup glfw glad alpha0 glm_static)
