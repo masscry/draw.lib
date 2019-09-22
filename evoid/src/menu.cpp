@@ -163,7 +163,7 @@ namespace evoid
     ;
   }
 
-  void mainMenuPage_t::OnRender()
+  void menuView_t::OnRender()
   {
     draw::system_t& instance = draw::system_t::Instance();
     instance.Bind(*this->shader);
@@ -188,7 +188,7 @@ namespace evoid
     this->spaceShip.Transform() = glm::rotate(this->spaceShip.Transform(), glm::radians(0.2f), glm::vec3(0.1f, 1.0f, 0.1f));
   }
 
-  mainMenuPage_t::mainMenuPage_t(const std::vector<std::string>& menuLinesText)
+  menuView_t::menuView_t(const std::vector<std::string>& menuLinesText)
   {
     auto& instance = draw::system_t::Instance();
 
@@ -226,7 +226,7 @@ namespace evoid
 
   }
 
-  void mainMenuPage_t::SelectItem(int line)
+  void menuView_t::SelectItem(int line)
   {
     this->menuSelected = this->menuLines.begin() + line;
   }
@@ -235,7 +235,7 @@ namespace evoid
   {
     if (eventID == evoid::EE_UPDATE_MENU)
     {
-      auto mmp = static_cast<mainMenuPage_t*>(this->menuView->get());
+      auto mmp = static_cast<menuView_t*>(this->menuView->get());
       auto mmm = static_cast<menuModel_t*>(this->menuModel->get());
       mmp->SelectItem(mmm->Selected());
     }
@@ -247,7 +247,7 @@ namespace evoid
       new menuModel_t()
     );
     this->menuView = draw::system_t::Instance().AddFrameStage(
-      new mainMenuPage_t(mainMenuTextLines)
+      new menuView_t(mainMenuTextLines)
     );
     this->menuInput = draw::system_t::Instance().AddInputListener(
       new menuInput_t()

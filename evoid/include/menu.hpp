@@ -56,7 +56,7 @@ namespace evoid
 
   };
 
-  class mainMenuPage_t: public draw::frameStage_t 
+  class menuView_t: public draw::frameStage_t 
   {
     draw::glSharedResource_t menuFont;
     draw::glSharedResource_t shader;
@@ -72,11 +72,11 @@ namespace evoid
 
   protected:
 
-    ~mainMenuPage_t() = default;
+    ~menuView_t() = default;
 
   public:
 
-    mainMenuPage_t(const std::vector<std::string>& menuLinesText);
+    menuView_t(const std::vector<std::string>& menuLinesText);
 
     void SelectItem(int line);
 
