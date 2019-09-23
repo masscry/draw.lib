@@ -86,10 +86,14 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-fPIC -O2 -std=c++11"/>
-        <element flagsID="1" commonFlags="-g"/>
-        <element flagsID="2" commonFlags="-g -std=gnu99"/>
-        <element flagsID="3" commonFlags="-std=gnu++11"/>
+        <element flagsID="0" commonFlags="-g"/>
+        <element flagsID="1" commonFlags="-g -std=gnu99"/>
+        <element flagsID="2"
+                 commonFlags="-mtune=generic -march=x86-64 -O2 -std=c++11 -fstack-protector-strong"/>
+        <element flagsID="3"
+                 commonFlags="-mtune=generic -march=x86-64 -g -std=gnu99 -fstack-protector-strong"/>
+        <element flagsID="4"
+                 commonFlags="-mtune=generic -march=x86-64 -std=gnu++11 -fstack-protector-strong"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -106,16 +110,15 @@
         </preBuild>
       </makefileType>
       <item path="contrib/alpha0/contrib/CuTest.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
             <pElem>contrib/alpha0/contrib</pElem>
-            <pElem>contrib/alpha0/include</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
       </item>
       <item path="contrib/alpha0/contrib/mur32.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
           <incDir>
             <pElem>contrib/alpha0/include</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
@@ -126,37 +129,37 @@
             ex="false"
             tool="0"
             flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/src/json2/j2parse.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/src/json2/j2print.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/src/json2/j2value.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/src/rbuf.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/src/udict.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="1">
         </cTool>
       </item>
       <item path="contrib/alpha0/test/j2parser-test.c"
             ex="false"
             tool="0"
             flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
             <pElem>contrib/alpha0/contrib</pElem>
-            <pElem>contrib/alpha0/include</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
@@ -165,27 +168,27 @@
             ex="false"
             tool="0"
             flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
             <pElem>contrib/alpha0/contrib</pElem>
-            <pElem>contrib/alpha0/include</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
       </item>
       <item path="contrib/alpha0/test/js-valid.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
-            <pElem>contrib/alpha0/include</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
       </item>
       <item path="contrib/alpha0/test/json2-test.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
+            <pElem>contrib/alpha0/include/json2</pElem>
             <pElem>contrib/alpha0/contrib</pElem>
-            <pElem>contrib/alpha0/include</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
@@ -194,40 +197,90 @@
             ex="false"
             tool="0"
             flavor2="3">
-        <cTool flags="2">
+        <cTool flags="3">
           <incDir>
             <pElem>contrib/alpha0/include</pElem>
             <pElem>.debug/contrib/alpha0</pElem>
           </incDir>
         </cTool>
       </item>
-      <item path="contrib/glad/src/glad.c" ex="false" tool="0" flavor2="0">
-        <cTool flags="1">
+      <item path="contrib/glad/src/glad.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="0">
         </cTool>
       </item>
       <item path="contrib/glm/glm/detail/glm.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
         </ccTool>
       </item>
       <item path="evoid/src/evoid.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>evoid/src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>evoid/include</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug/evoid</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="evoid/src/menu.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>evoid/include</pElem>
+            <pElem>evoid/src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm/gtc</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug/evoid</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="examples/000.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>/usr/include/glm/gtx</pElem>
+            <pElem>/usr/include/glm/gtc</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="examples/console.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>/usr/include/glm/gtc</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <folder path="0/contrib">
         <ccTool>
           <incDir>
+            <pElem>contrib/glm/glm/detail</pElem>
+            <pElem>contrib/glm/glm/gtc</pElem>
+            <pElem>contrib/glm/glm/ext</pElem>
+            <pElem>contrib/glm/glm/gtx</pElem>
             <pElem>contrib/glm</pElem>
             <pElem>.debug/contrib/glm/glm</pElem>
           </incDir>
@@ -246,23 +299,28 @@
           </incDir>
         </cTool>
       </folder>
+      <folder path="0/contrib/alpha0/test">
+        <cTool>
+          <incDir>
+            <pElem>contrib/alpha0/test</pElem>
+          </incDir>
+        </cTool>
+      </folder>
       <folder path="0/contrib/glad">
         <cTool>
           <incDir>
             <pElem>contrib/glad/include</pElem>
             <pElem>.debug/contrib</pElem>
           </incDir>
+          <preprocessorList>
+            <Elem>glad_EXPORTS</Elem>
+          </preprocessorList>
         </cTool>
       </folder>
       <folder path="0/evoid">
         <ccTool>
           <incDir>
-            <pElem>evoid/include</pElem>
-            <pElem>include</pElem>
-            <pElem>.debug/include</pElem>
-            <pElem>contrib/glad/include</pElem>
-            <pElem>contrib/alpha0/include</pElem>
-            <pElem>.debug/evoid</pElem>
+            <pElem>include/draw</pElem>
           </incDir>
           <preprocessorList>
             <Elem>GLFW_DLL</Elem>
@@ -272,73 +330,176 @@
       <folder path="0/examples">
         <ccTool>
           <incDir>
-            <pElem>include</pElem>
-            <pElem>.debug/include</pElem>
-            <pElem>contrib/glad/include</pElem>
-            <pElem>contrib/alpha0/include</pElem>
-            <pElem>.debug</pElem>
+            <pElem>include/draw</pElem>
+            <pElem>examples</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
           </incDir>
-          <preprocessorList>
-            <Elem>GLFW_DLL</Elem>
-          </preprocessorList>
-        </ccTool>
-      </folder>
-      <folder path="0/src">
-        <ccTool>
-          <incDir>
-            <pElem>include</pElem>
-            <pElem>.debug/include</pElem>
-            <pElem>contrib/glad/include</pElem>
-            <pElem>contrib/alpha0/include</pElem>
-            <pElem>.debug</pElem>
-          </incDir>
-          <preprocessorList>
-            <Elem>GLFW_DLL</Elem>
-          </preprocessorList>
         </ccTool>
       </folder>
       <item path="src/camera_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/gtc</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/event_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/input_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/mesh_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/settings_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/shader_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/system_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>/usr/include/GLFW</pElem>
+            <pElem>contrib/alpha0/include/json2</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/targa.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/texture_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>include/draw</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/vao_t.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>include/draw</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/wavefront.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="4">
+          <incDir>
+            <pElem>include/draw</pElem>
+            <pElem>src</pElem>
+            <pElem>/usr/include/glm/detail</pElem>
+            <pElem>/usr/include/glm</pElem>
+            <pElem>contrib/glad/include/glad</pElem>
+            <pElem>contrib/glad/include/KHR</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
         </ccTool>
       </item>
     </conf>

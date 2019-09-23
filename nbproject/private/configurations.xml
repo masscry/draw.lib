@@ -235,6 +235,133 @@
           </df>
         </df>
       </df>
+      <df name=".release">
+        <df name="CMakeFiles">
+          <df name="3.10.2">
+            <df name="CompilerIdC">
+              <df name="tmp">
+              </df>
+              <in>CMakeCCompilerId.c</in>
+            </df>
+            <df name="CompilerIdCXX">
+              <df name="tmp">
+              </df>
+              <in>CMakeCXXCompilerId.cpp</in>
+            </df>
+          </df>
+          <df name="CMakeTmp">
+          </df>
+          <df name="draw.dir">
+            <df name="src">
+            </df>
+          </df>
+          <df name="ex000.dir">
+            <df name="examples">
+            </df>
+          </df>
+          <in>feature_tests.c</in>
+          <in>feature_tests.cxx</in>
+        </df>
+        <df name="contrib">
+          <df name="alpha0">
+            <df name="CMakeFiles">
+              <df name="alpha0.dir">
+                <df name="contrib">
+                </df>
+                <df name="src">
+                  <df name="json2">
+                  </df>
+                </df>
+              </df>
+              <df name="Export">
+                <df name="share">
+                  <df name="cmake">
+                  </df>
+                </df>
+              </df>
+              <df name="js-valid.dir">
+                <df name="test">
+                </df>
+              </df>
+              <df name="json2-test.dir">
+                <df name="contrib">
+                </df>
+                <df name="test">
+                </df>
+              </df>
+              <df name="rbuf-udict-test.dir">
+                <df name="test">
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="CMakeFiles">
+            <df name="glad.dir">
+              <df name="glad">
+                <df name="src">
+                </df>
+              </df>
+            </df>
+          </df>
+          <df name="glm">
+            <df name="CMakeFiles">
+              <df name="Export">
+                <df name="lib">
+                  <df name="cmake">
+                    <df name="glm">
+                    </df>
+                  </df>
+                </df>
+              </df>
+              <df name="uninstall.dir">
+              </df>
+            </df>
+            <df name="glm">
+              <df name="CMakeFiles">
+                <df name="glm_shared.dir">
+                  <df name="detail">
+                  </df>
+                </df>
+                <df name="glm_static.dir">
+                  <df name="detail">
+                  </df>
+                </df>
+              </df>
+            </df>
+            <df name="lib">
+              <df name="cmake">
+                <df name="glm">
+                </df>
+              </df>
+            </df>
+            <df name="test">
+              <df name="CMakeFiles">
+              </df>
+            </df>
+          </df>
+        </df>
+        <df name="evoid">
+          <df name="CMakeFiles">
+            <df name="evoid.dir">
+              <df name="src">
+              </df>
+            </df>
+          </df>
+        </df>
+        <df name="include">
+          <df name="draw">
+            <in>config.h</in>
+          </df>
+        </df>
+        <df name="usr">
+          <df name="local">
+            <df name="bin">
+            </df>
+            <df name="share">
+            </df>
+          </df>
+        </df>
+      </df>
       <df name=".vscode">
       </df>
       <df name="contrib">
