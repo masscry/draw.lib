@@ -23,7 +23,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(glfw3 3.2 REQUIRED)
 
-add_subdirectory(contrib)
+add_subdirectory(contrib EXCLUDE_FROM_ALL)
 
 set(DRAW_VER_STRING "${draw_VERSION}")
 set(DRAW_VER_MAJOR   ${draw_VERSION_MAJOR})
