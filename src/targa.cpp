@@ -142,8 +142,11 @@ namespace draw
 
     if (!tgaIsRLE(head.imtype))
     {
-      if (fread(pixels.data(), 4, head.is.width*head.is.height, input)
-        != head.is.width*head.is.height) 
+      size_t expectRead = head.is.width*head.is.height;
+      size_t totalRead = fread(
+        pixels.data(), 4, expectRead, input
+      );
+      if (totalRead  != expectRead) 
       {
         THROW_ERROR("TGA: fread failed");
       }
