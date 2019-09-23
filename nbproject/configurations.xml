@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="100">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root=".debug" name="1">
+    </df>
+    <df root="." name="0">
+      <df name="contrib">
+        <df name="alpha0">
+          <df name="contrib">
+            <in>CuTest.c</in>
+            <in>mur32.c</in>
+          </df>
+          <df name="src">
+            <df name="json2">
+              <in>j2dynstr.c</in>
+              <in>j2parse.c</in>
+              <in>j2print.c</in>
+              <in>j2value.c</in>
+            </df>
+            <in>rbuf.c</in>
+            <in>udict.c</in>
+          </df>
+          <df name="test">
+            <in>j2parser-test.c</in>
+            <in>j2printer-test.c</in>
+            <in>js-valid.c</in>
+            <in>json2-test.c</in>
+            <in>rbuf-udict-test.c</in>
+          </df>
+        </df>
+        <df name="glad">
+          <df name="src">
+            <in>glad.c</in>
+          </df>
+        </df>
+        <df name="glm">
+          <df name="glm">
+            <df name="detail">
+              <in>glm.cpp</in>
+            </df>
+          </df>
+        </df>
+      </df>
+      <df name="evoid">
+        <df name="src">
+          <in>evoid.cpp</in>
+          <in>menu.cpp</in>
+        </df>
+      </df>
+      <df name="examples">
+        <in>000.cpp</in>
+        <in>console.cpp</in>
+      </df>
+      <df name="src">
+        <in>camera_t.cpp</in>
+        <in>event_t.cpp</in>
+        <in>input_t.cpp</in>
+        <in>mesh_t.cpp</in>
+        <in>settings_t.cpp</in>
+        <in>shader_t.cpp</in>
+        <in>system_t.cpp</in>
+        <in>targa.cpp</in>
+        <in>texture_t.cpp</in>
+        <in>vao_t.cpp</in>
+        <in>wavefront.cpp</in>
+      </df>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Важные файлы"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>CMakeLists.txt</itemPath>
+      <itemPath>nbproject/private/launcher.properties</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
+  <sourceRootList>
+    <Elem>.</Elem>
+  </sourceRootList>
+  <projectmakefile></projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <compilerSet>GNU_1|GNU</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <flagsDictionary>
+        <element flagsID="0" commonFlags="-fPIC -O2 -std=c++11"/>
+        <element flagsID="1" commonFlags="-g"/>
+        <element flagsID="2" commonFlags="-g -std=gnu99"/>
+        <element flagsID="3" commonFlags="-std=gnu++11"/>
+      </flagsDictionary>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>cmake --build ./.debug -- -j8</buildCommand>
+          <cleanCommand>cmake --build ./.debug --target clean -- -j8</cleanCommand>
+          <executablePath></executablePath>
+        </makeTool>
+        <preBuild>
+          <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
+          <preBuildCommand></preBuildCommand>
+        </preBuild>
+      </makefileType>
+      <item path="contrib/alpha0/contrib/CuTest.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/contrib</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/contrib/mur32.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/json2/j2dynstr.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/json2/j2parse.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/json2/j2print.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/json2/j2value.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/rbuf.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/src/udict.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/test/j2parser-test.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/contrib</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/test/j2printer-test.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/contrib</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/test/js-valid.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/test/json2-test.c" ex="false" tool="0" flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/contrib</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/alpha0/test/rbuf-udict-test.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
+        <cTool flags="2">
+          <incDir>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </item>
+      <item path="contrib/glad/src/glad.c" ex="false" tool="0" flavor2="0">
+        <cTool flags="1">
+        </cTool>
+      </item>
+      <item path="contrib/glm/glm/detail/glm.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="0">
+        </ccTool>
+      </item>
+      <item path="evoid/src/evoid.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="evoid/src/menu.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="examples/000.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="examples/console.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <folder path="0/contrib">
+        <ccTool>
+          <incDir>
+            <pElem>contrib/glm</pElem>
+            <pElem>.debug/contrib/glm/glm</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>GLM_FORCE_CXX11</Elem>
+            <Elem>GLM_FORCE_INTRINSICS</Elem>
+            <Elem>glm_shared_EXPORTS</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/contrib/alpha0/src">
+        <cTool>
+          <incDir>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/contrib/alpha0</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/contrib/glad">
+        <cTool>
+          <incDir>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>.debug/contrib</pElem>
+          </incDir>
+        </cTool>
+      </folder>
+      <folder path="0/evoid">
+        <ccTool>
+          <incDir>
+            <pElem>evoid/include</pElem>
+            <pElem>include</pElem>
+            <pElem>.debug/include</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug/evoid</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>GLFW_DLL</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/examples">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.debug/include</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>GLFW_DLL</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <folder path="0/src">
+        <ccTool>
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>.debug/include</pElem>
+            <pElem>contrib/glad/include</pElem>
+            <pElem>contrib/alpha0/include</pElem>
+            <pElem>.debug</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>GLFW_DLL</Elem>
+          </preprocessorList>
+        </ccTool>
+      </folder>
+      <item path="src/camera_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/event_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/input_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/mesh_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/settings_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/shader_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/system_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/targa.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/texture_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/vao_t.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+      <item path="src/wavefront.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+        </ccTool>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

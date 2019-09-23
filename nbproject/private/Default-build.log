@@ -1,0 +1,57 @@
+[  2%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/udict.c.o
+[  4%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/json2/j2parse.c.o
+[  7%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/json2/j2dynstr.c.o
+[  9%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/json2/j2print.c.o
+[ 12%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/rbuf.c.o
+[ 14%] Building C object contrib/CMakeFiles/glad.dir/glad/src/glad.c.o
+[ 17%] Building CXX object contrib/glm/glm/CMakeFiles/glm_static.dir/detail/glm.cpp.o
+[ 19%] Building CXX object contrib/glm/glm/CMakeFiles/glm_shared.dir/detail/glm.cpp.o
+[ 21%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/src/json2/j2value.c.o
+[ 24%] Building C object contrib/alpha0/CMakeFiles/alpha0.dir/contrib/mur32.c.o
+[ 26%] Linking C static library libalpha0.a
+[ 29%] Linking C static library libglad.a
+[ 29%] Built target alpha0
+[ 29%] Built target glad
+[ 31%] Building C object contrib/alpha0/CMakeFiles/json2-test.dir/test/j2printer-test.c.o
+[ 34%] Building C object contrib/alpha0/CMakeFiles/json2-test.dir/test/j2parser-test.c.o
+[ 36%] Building C object contrib/alpha0/CMakeFiles/json2-test.dir/contrib/CuTest.c.o
+[ 39%] Building C object contrib/alpha0/CMakeFiles/js-valid.dir/test/js-valid.c.o
+[ 41%] Building C object contrib/alpha0/CMakeFiles/json2-test.dir/test/json2-test.c.o
+[ 43%] Building C object contrib/alpha0/CMakeFiles/rbuf-udict-test.dir/test/rbuf-udict-test.c.o
+[ 46%] Linking C executable js-valid
+[ 48%] Linking C executable json2-test
+[ 48%] Built target js-valid
+[ 51%] Linking C executable rbuf-udict-test
+[ 51%] Built target json2-test
+[ 51%] Built target rbuf-udict-test
+[ 53%] Linking CXX shared library libglm_shared.so
+[ 53%] Built target glm_shared
+[ 56%] Linking CXX static library libglm_static.a
+[ 56%] Built target glm_static
+[ 58%] Building CXX object CMakeFiles/draw.dir/src/system_t.cpp.o
+[ 60%] Building CXX object CMakeFiles/draw.dir/src/wavefront.cpp.o
+[ 63%] Building CXX object CMakeFiles/draw.dir/src/shader_t.cpp.o
+[ 65%] Building CXX object CMakeFiles/draw.dir/src/mesh_t.cpp.o
+[ 70%] Building CXX object CMakeFiles/draw.dir/src/settings_t.cpp.o
+[ 70%] Building CXX object CMakeFiles/draw.dir/src/camera_t.cpp.o
+[ 73%] Building CXX object CMakeFiles/draw.dir/src/texture_t.cpp.o
+[ 75%] Building CXX object CMakeFiles/draw.dir/src/vao_t.cpp.o
+[ 78%] Building CXX object CMakeFiles/draw.dir/src/targa.cpp.o
+[ 80%] Building CXX object CMakeFiles/draw.dir/src/input_t.cpp.o
+[ 82%] Building CXX object CMakeFiles/draw.dir/src/event_t.cpp.o
+/home/timur/projects/draw.lib/src/targa.cpp: In function ‘draw::glSharedResource_t draw::LoadTGA(const char*)’:
+/home/timur/projects/draw.lib/src/targa.cpp:146:9: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+       if (fread(pixels.data(), 4, head.is.width*head.is.height, input)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         != head.is.width*head.is.height)
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[ 85%] Linking CXX static library libdraw.a
+[ 85%] Built target draw
+[ 95%] Building CXX object evoid/CMakeFiles/evoid.dir/src/menu.cpp.o
+[ 95%] Building CXX object CMakeFiles/ex000.dir/examples/console.cpp.o
+[ 95%] Building CXX object evoid/CMakeFiles/evoid.dir/src/evoid.cpp.o
+[ 95%] Building CXX object CMakeFiles/ex000.dir/examples/000.cpp.o
+[ 97%] Linking CXX executable ex000
+[ 97%] Built target ex000
+[100%] Linking CXX executable evoid
+[100%] Built target evoid
