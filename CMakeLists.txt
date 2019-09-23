@@ -6,6 +6,8 @@ project(draw
   LANGUAGES CXX
 )
 
+include(CPack)
+
 if (DRAW_USE_CLANG_TIDY)
   find_program(CLANG_TIDY_CHECK NAMES clang-tidy)
 
