@@ -223,18 +223,16 @@ namespace draw
     this->inputListeners.erase(listenerID);
   }
 
-  system_t::lisfOfEventListeners_t::iterator system_t::AddEventListener(eventListener_t* listener)
+  eventListener_t::list_t::iterator system_t::AddEventListener(eventListener_t* listener)
   {
-    assert(listener != nullptr);
-    assert(listener->RegisteredID() == -1);
     this->eventListeners.emplace_back(listener);
-    listener->SetRegisteredID(this->eventListeners.size()-1);
-    return std::prev(this->eventListeners.end());
+    listener->SetRegisteredID(std::prev(this->eventListeners.end()));
+    return listener->RegisteredID();
   }
 
-  void system_t::RemoveEventListener(lisfOfEventListeners_t::iterator eventID)
+  void system_t::RemoveEventListener(eventListener_t::list_t::iterator eventID)
   {
-    (*eventID)->SetRegisteredID(-1);
+    (*eventID)->SetRegisteredID(this->eventListeners.end());
     this->eventListeners.erase(eventID);
   }
 

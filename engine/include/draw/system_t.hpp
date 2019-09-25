@@ -39,7 +39,6 @@ namespace draw
 
     typedef std::list<uniqueFrameStage_t> listOfFrameStages_t;
     typedef std::list<uniqueInputListener_t> listOfInputListeners_t;
-    typedef std::list<uniqueEventListener_t> lisfOfEventListeners_t;
 
   private:
 
@@ -47,14 +46,14 @@ namespace draw
     friend class inputListener_t;
     friend class eventListener_t;
 
-    GLFWwindow*            window;
-    listOfFrameStages_t    stages;
-    settings_t             settings;
-    glm::vec2              winsize;
-    logLevel_t             logLevel;
-    listOfInputListeners_t inputListeners;
-    lisfOfEventListeners_t eventListeners;
-    bool                   userStopRequest;
+    GLFWwindow*             window;
+    listOfFrameStages_t     stages;
+    settings_t              settings;
+    glm::vec2               winsize;
+    logLevel_t              logLevel;
+    listOfInputListeners_t  inputListeners;
+    eventListener_t::list_t eventListeners;
+    bool                    userStopRequest;
 
     system_t(const system_t&) = delete;
     system_t& operator= (const system_t&) = delete;
@@ -75,6 +74,8 @@ namespace draw
     }
 
     static void onKeyInput(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+    eventListener_t::list_t::iterator AddEventListener(eventListener_t* listener);
 
   public:
 
@@ -133,9 +134,20 @@ namespace draw
 
     void RemoveInputListener(listOfInputListeners_t::iterator);
 
-    lisfOfEventListeners_t::iterator AddEventListener(eventListener_t* listener);
+    template<typename T, typename... arg_t>
+    eventListener_t::list_t::iterator AddEventListener(arg_t... args)
+    {
+      return this->AddEventListener(new T(&this->eventListeners, args...));
+    }
 
-    void RemoveEventListener(lisfOfEventListeners_t::iterator);
+    template<typename... arg_t>
+    eventListener_t::list_t::iterator ConstructEventListener(constructEventListenerFunc_t func, arg_t... args)
+    {
+      return this->AddEventListener(func(&this->eventListeners, args...));
+    }
+
+
+    void RemoveEventListener(eventListener_t::list_t::iterator);
 
     /**
      * @brief Get singleton instance

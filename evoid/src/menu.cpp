@@ -157,8 +157,8 @@ namespace evoid
     }
   }
 
-  menuModel_t::menuModel_t()
-  :selected(ML_NEW_GAME)
+  menuModel_t::menuModel_t(draw::eventListener_t::list_t* parent)
+  :eventListener_t(parent), selected(ML_NEW_GAME)
   {
     ;
   }
@@ -241,11 +241,10 @@ namespace evoid
     }
   }
 
-  menuPresenter_t::menuPresenter_t()
+  menuPresenter_t::menuPresenter_t(draw::eventListener_t::list_t* parent)
+  :draw::eventListener_t(parent)
   {
-    this->menuModel = draw::system_t::Instance().AddEventListener(
-      new menuModel_t()
-    );
+    this->menuModel = draw::system_t::Instance().AddEventListener<menuModel_t>();
     this->menuView = draw::system_t::Instance().AddFrameStage(
       new menuView_t(mainMenuTextLines)
     );

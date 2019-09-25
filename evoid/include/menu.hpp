@@ -52,7 +52,7 @@ namespace evoid
     void Prev();
     void Activate();
 
-    menuModel_t();
+    menuModel_t(draw::eventListener_t::list_t* parent);
 
   };
 
@@ -82,7 +82,7 @@ namespace evoid
 
   };
 
-  using menuModelIterator = draw::system_t::lisfOfEventListeners_t::iterator;
+  using menuModelIterator = draw::eventListener_t::list_t::iterator;
   using menuViewIterator = draw::system_t::listOfFrameStages_t::iterator;
   using menuInputIterator = draw::system_t::listOfInputListeners_t::iterator;
 
@@ -102,8 +102,8 @@ namespace evoid
 
   public:
 
-    menuPresenter_t();
-    ~menuPresenter_t();
+    menuPresenter_t(draw::eventListener_t::list_t* parent);
+    ~menuPresenter_t() override;
   };
 
 } // namespace evoid

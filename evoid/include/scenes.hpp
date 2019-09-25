@@ -7,14 +7,14 @@
 namespace evoid
 {
 
-  using sceneConstructFunc_t = draw::eventListener_t* ();
-
+  using sceneConstructFunc_t = draw::constructEventListenerFunc_t;
+  
   template<typename T>
   struct scene_t
   {
-    static draw::eventListener_t* Construct()
+    static draw::eventListener_t* Construct(draw::eventListener_t::list_t* parent)
     {
-      return new T();
+      return new T(parent);
     }
   };
 
