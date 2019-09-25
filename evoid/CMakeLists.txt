@@ -3,10 +3,12 @@ project(evoid)
 add_executable(evoid 
 # HEADERS
   include/menu.hpp
+  include/scenes.hpp
 
 # SOURCES
   src/menu.cpp
   src/evoid.cpp
+  src/scenes.cpp
 )
 
 target_include_directories(evoid PRIVATE

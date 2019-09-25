@@ -9,7 +9,8 @@
     "model": "share/spaceship.obj"
   },
   "scene": {
-    "clcolor": "#111111FF"
+    "clcolor": "#111111FF",
+    "start": "MainMenu"
   },
   "keyboard": {
     "right": 262,

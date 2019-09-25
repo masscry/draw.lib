@@ -1,6 +1,6 @@
 #include <draw.hpp>
-#include <menu.hpp>
 #include <events.hpp>
+#include <scenes.hpp>
 #include <iostream>
 
 int main(int /*argc*/, char* /*argv*/[])
@@ -9,13 +9,14 @@ int main(int /*argc*/, char* /*argv*/[])
   {
     auto& instance = draw::system_t::Instance();
 
-    auto menu = instance.AddEventListener(new evoid::menuPresenter_t());
+    instance.AddEventListener(
+      evoid::Scenes()[instance.Settings().Param("scene/start", "MainMenu")]()
+    );
     while(instance.IsRunning())
     {
       instance.Render();
       instance.Update();
     }
-    instance.RemoveEventListener(menu);
   }
   catch(const draw::error_t& err)
   {
