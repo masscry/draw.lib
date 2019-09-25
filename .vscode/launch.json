@@ -5,27 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Ex000 (Debug)",
-      "type": "cppdbg",
-      "request": "launch",
-      "program": "${workspaceFolder}/build/ex000",
-      "args": [],
-      "stopAtEntry": false,
-      "cwd": "${workspaceFolder}",
-      "environment": [],
-      "externalConsole": false,
-      "MIMode":"gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ],
-      "preLaunchTask": "build all (debug)",
-      "miDebuggerPath": "/usr/bin/gdb"
-    },
-    {
       "name": "Run EVoid (Debug)",
       "type": "cppdbg",
       "request": "launch",
@@ -68,6 +47,27 @@
       "miDebuggerPath": "/usr/bin/gdb"
     },
     {
+      "name": "Ex000 (Debug)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/ex000",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode":"gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "build examples (debug)",
+      "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
       "name": "Ex000 (Release)",
       "type": "cppdbg",
       "request": "launch",
@@ -85,7 +85,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "build all (release)",
+      "preLaunchTask": "build examples (release)",
       "miDebuggerPath": "/usr/bin/gdb"
     },
   ]

@@ -21,6 +21,24 @@
         "$gcc"
       ],
       "group": "build"
+    },
+    {
+      "label": "build examples (debug)",
+      "type": "shell",
+      "command": "cmake --build ./build --target ex000 -- -j",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "build examples (release)",
+      "type": "shell",
+      "command": "cmake --build ./.release --target ex000 -- -j",
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build"
     }
   ]
 }
