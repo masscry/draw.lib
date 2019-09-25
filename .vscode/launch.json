@@ -87,6 +87,6 @@
       ],
       "preLaunchTask": "build examples (release)",
       "miDebuggerPath": "/usr/bin/gdb"
-    },
+    }
   ]
 }
