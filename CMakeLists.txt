@@ -24,6 +24,7 @@ endif(DRAW_USE_CLANG_TIDY)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(glfw3 3.2 REQUIRED)
+find_package(PythonInterp 3.6 REQUIRED)
 
 add_subdirectory(contrib EXCLUDE_FROM_ALL)
 
